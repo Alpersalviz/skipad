@@ -1,0 +1,35 @@
+services:
+#    admin.example:
+#        class: AdminBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]
+      kernel.listener.controller_listener:
+          class:  AppBundle\EventListener\ControllerListener
+          arguments:
+              userRepository:  "@app.user_repository"
+          tags:
+              - { name: kernel.event_listener, event: kernel.controller, method: onHandleController }
+
+      kernel.listener.exception_listener:
+          class: AppBundle\EventListener\ExceptionListener
+          arguments: ["@twig", "@logger"]
+          tags:
+              - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
+
+      app.base_controller:
+          class: AppBundle\Controller\BaseController
+          abstract: true
+          calls:
+              - [ Initialize, ["@session"] ]
+
+      app.default_controller:
+          class: AppBundle\Controller\DefaultController
+          parent: app.base_controller
+
+      app.base_repository:
+          class: AppBundle\Data\Repository\BaseRepository
+          calls:
+              - [Initialize , ["@doctrine.dbal.default_connection"]]
+
+      app.user_repository:
+          class: AppBundle\Data\Repository\UserRepository
+          parent: app.base_repository
