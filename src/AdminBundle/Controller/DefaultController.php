@@ -38,6 +38,9 @@ class DefaultController extends BaseController
     */
     public function LoginAction()
     {
+       if($this->GetSession()->get("email") != null)
+           return $this->redirect('/admin');
+
         return array();
     }
 

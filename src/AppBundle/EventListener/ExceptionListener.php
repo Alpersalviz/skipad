@@ -23,6 +23,8 @@ class ExceptionListener
         $isAdminBundle          = strpos($event->getRequest()->getPathInfo(),'/admin/') !== false;
 
 
+
+
         $exception = $event->getException();
         $response = new Response();
         $logId = microtime(true);
