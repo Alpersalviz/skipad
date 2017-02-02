@@ -29,14 +29,17 @@ class ControllerListener
         list($bundle,$dummy,$controllerName) = explode('\\',$className);
 
         $restrictedBundles = array(
-            'AdminBundle'
+            'AdminBundle',
+            'UserBundle'
         );
 
         $allowedMethods = array(
             'LoginAction',
-            'AjaxLoginAction',
+            'AjaxLoginAction',  
             'LogoutAction',
+            'AjaxRegisterAction',
         );
+
 
         // Controlling restricted bundles
         if(in_array($bundle,$restrictedBundles)){
@@ -44,8 +47,14 @@ class ControllerListener
             // Let it go if allowed method
             if(in_array($method,$allowedMethods))
                 return;
-            if($bundle == 'AdminBundle' && $controller->GetSession()->get('email') === null)
+
+
+            if($bundle == 'AdminBundle' && $controller->GetSession()->get('usertype') != 'admin')
                 throw new UnauthorizedHttpException('You must be logged in!');
+
+            if($bundle == 'UserBundle' && $controller->GetSession()->get('usertype') != 'user')
+                throw new UnauthorizedHttpException('You must be logged in!');
+
 
         }
 

@@ -1,0 +1,138 @@
+<html lang="tr">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Link</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="{{ asset('static/css/bootstrap.css') }}" rel="stylesheet">
+
+    <!-- MetisMenu CSS -->
+    <link href="{{ asset('static/css/metisMenu.min.css') }}" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="{{ asset('static/css/sb-admin-2.css') }}" rel="stylesheet">
+
+    <!-- Morris Charts CSS -->
+    <link href="{{ asset('static/css/morris.css') }}" rel="stylesheet">
+
+    <link href="{{ asset('static/css/font-awesome.min.css') }}" rel="stylesheet">
+
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    {% block stylesheet %}
+    {% endblock %}
+    <![endif]-->
+
+</head>
+
+<body>
+{% block login %}
+{% endblock %}
+{% if app.session.get('usertype') == 'user' %}
+<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only">Toggle navigation</span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="/user">Link Yönlendir</a>
+
+    </div>
+    <!-- /.navbar-header -->
+    <ul class="nav navbar-top-links navbar-right">
+        <!-- /.dropdown -->
+        <li class="dropdown">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="true">
+                <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+            </a>
+            <ul class="dropdown-menu dropdown-user">
+                <li><a href="{{ url('user_update') }}"><i class="fa fa-gear fa-fw"></i> Settings</a>
+                </li>
+                <li class="divider"></li>
+                <li><a href="{{ url("user_logout") }}"><i class="fa fa-sign-out fa-fw"></i> Logout</a>
+                </li>
+            </ul>
+            <!-- /.dropdown-user -->
+        </li>
+        <!-- /.dropdown -->
+    </ul>
+    <!-- /.navbar-top-links -->
+
+    <div class="navbar-default sidebar" role="navigation">
+        <div class="sidebar-nav navbar-collapse">
+            <ul class="nav" id="side-menu">
+
+                <li>
+                    <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Yayıncı<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a href="{{ url("user_url_list") }}">Linkler</a>
+                        </li>
+                        <li>
+                            <a href="{{ url("user_url_add") }}">Link Oluştur</a>
+                        </li>
+                        <li>
+                            <a href="{{ url("user_get_payment") }}">Ödeme Almak İstiyorum</a>
+                        </li>
+
+                    </ul>
+                    <!-- /.nav-second-level -->
+                </li>
+                <li>
+                    <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Reklam Veren<span class="fa arrow"></span></a>
+                    <ul class="nav nav-second-level">
+                        <li>
+                            <a href="{{ url("user_advertiser_list") }}">Reklamlarım</a>
+                        </li>
+                        <li>
+                            <a href="{{ url("user_advertiser_add") }}">Reklam Oluştur</a>
+                        </li>
+                        <li>
+                            <a href="{{ url("user_set_payment") }}">Ödeme Yaptım</a>
+                        </li>
+
+                    </ul>
+                    <!-- /.nav-second-level -->
+                </li>
+            </ul>
+        </div>
+        <!-- /.sidebar-collapse -->
+    </div>
+    <!-- /.navbar-static-side -->
+</nav>
+{% block content %}
+
+
+{% endblock %}
+
+<!-- /#wrapper -->
+{% endif %}
+<!-- jQuery -->
+<script type="text/javascript" src="{{ asset('static/js/jquery-3.1.1.min.js') }}"></script>
+<!-- Bootstrap Core JavaScript -->
+<script src="{{ asset('static/js/bootstrap.min.js') }}"></script>
+
+<!-- Metis Menu Plugin JavaScript -->
+<script src="{{ asset('static/js/metisMenu.min.js') }}"></script>
+
+<!-- Morris Charts JavaScript -->
+<script src="{{ asset('static/js/raphael.min.js') }}"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
+<script src="{{ asset('static/js/sb-admin-2.js') }}"></script>
+{% block javascript %}
+{% endblock %}
+</body>
+
+</html>
+

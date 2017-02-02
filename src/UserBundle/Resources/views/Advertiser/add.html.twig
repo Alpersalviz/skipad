@@ -1,0 +1,93 @@
+
+{% extends 'UserBundle:Default:base.html.twig' %}
+{% block content %}
+
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Reklam Oluştur</h1>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <div class="alert alert-success" style="display: none">
+            <strong></strong>
+        </div>
+
+        <div class="alert alert-danger" style="display: none"><strong></strong></div>
+        <div class="row">
+            <div class="col-lg-12">
+                <form id="ad-form"  method="post" role="form">
+                    <div class="form-group">
+                        <input  data-validation="required"  data-validation-error-msg="Lütfen başlık alanını boş bırakmayınız" type="text" name="title" id="title" tabindex="1" class="form-control" placeholder="Başlık">
+                    </div>
+                    <div class="form-group">
+                        <input  data-validation="url"  data-validation-error-msg="Lütfen iframe link alanını boş bırakmayınız" type="text" name="url" id="url" tabindex="1" class="form-control" placeholder="İframe Link">
+                    </div>
+
+                    <div class="form-group">
+                        <select class="form-control" name="ad_type">
+                            <option value="header_banner">Header</option>
+                            <option value="interstitial">Interstitial</option>
+                            <option value="none">Pasif</option>
+                        </select>
+
+                    </div>
+                    <div class="form-group">
+                        <input  data-validation="required"  data-validation-error-msg="Lütfen bütçe alanını boş bırakmayınız" type="text" name="first_price" id="first_price" tabindex="1" class="form-control" placeholder="Bütçe (TL)">
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-3 col-sm-offset-4">
+                                <input type="submit" name="link-submit" id="link-submit" tabindex="4" class="btn btn-lg btn-success btn-block" value="Reklam Ekle">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascript %}
+    <script>
+        var Forms={
+            Ad:{
+                Self:$('#ad-form'),
+                Bind:function () {
+                    Forms.Ad.Self.on('submit',function (e) {
+                        e.preventDefault();
+                        $.post('{{ url('user_ajax_advertiser_add') }}',$(this).serialize(),function (result) {
+                            if(result.success)
+                            {
+                                setTimeout(function () {
+                                    location.reload();
+                                },1000);
+                                $('.alert-success strong').text(result.message)
+                                $('.alert-success').slideDown();
+                            }else {
+                                $('.alert-danger strong').text(result.message)
+                                $('.alert-danger').slideDown();
+                            }
+                        })
+                    })
+                }
+            },
+
+            Bind:function () {
+                Forms.Ad.Bind();
+            }
+        }
+
+        $(document).ready(function () {
+            $.validate({
+                validateOnBlur : false,
+                errorMessagePosition : 'top',
+                scrollToTopOnError : false
+            });
+            Forms.Bind();
+
+        });
+
+
+    </script>
+{% endblock %}

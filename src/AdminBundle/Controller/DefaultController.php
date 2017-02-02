@@ -38,7 +38,7 @@ class DefaultController extends BaseController
     */
     public function LoginAction()
     {
-       if($this->GetSession()->get("email") != null)
+       if($this->GetSession()->get("email") != null && $this->GetSession()->get('usertype') == 'admin')
            return $this->redirect('/admin');
 
         return array();
@@ -58,7 +58,6 @@ class DefaultController extends BaseController
             $this->GetSession()->set('email',$user->Email);
             $this->GetSession()->set('usertype',$user->UserType);
         }
-
 
         return new JsonResponse(array(
             'success' => !($user == false)

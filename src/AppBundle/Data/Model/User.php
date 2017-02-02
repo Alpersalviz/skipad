@@ -9,6 +9,7 @@ class User
     public $Password;
     public $UserType;
     public $Name;
+    public $SurName;
     public $Address1;
     public $Address2;
     public $City;
@@ -16,8 +17,8 @@ class User
     public $ZipCode;
     public $PhoneNumber;
     public $AccountType;
-    public $PaymnetType;
-    public $PaymnetInfo;
+    public $PaymentType;
+    public $PaymentInfo;
     public $Balance;
     public $CreateIp;
 
@@ -26,21 +27,23 @@ class User
      */
     public function MapFrom(array $data)
     {
-        $this->ID = $data["ID"];
-        $this->Email = $data["email"];
-        $this->Password = $data["password"];
-        $this->UserType = $data["user_type"];
-        $this->Address1 = $data["address1"];
-        $this->Address2 = $data["address2"];
-        $this->City = $data["city"];
-        $this->Country = $data["country"];
-        $this->ZipCode = $data["zip_code"];
-        $this->PhoneNumber = $data["phone_number"];
-        $this->AccountType = $data["account_type"];
-        $this->PaymnetType = $data["payment_type"];
-        $this->PaymnetInfo = $data["payment_info"];
-        $this->Balance = $data["balance"];
-        $this->CreateIp = $data["created_ip"];
+        $this->ID           = $data["ID"];
+        $this->SurName      = $data["surname"];
+        $this->Name         = $data["name"];
+        $this->Email        = $data["email"];
+        $this->Password     = $data["password"];
+        $this->UserType     = $data["user_type"];
+        $this->Address1     = $data["address1"];
+        $this->Address2     = $data["address2"];
+        $this->City         = $data["city"];
+        $this->Country      = $data["country"];
+        $this->ZipCode      = $data["zip_code"];
+        $this->PhoneNumber  = $data["phone_number"];
+        $this->AccountType  = $data["account_type"];
+        $this->PaymentType  = $data["payment_type"];
+        $this->PaymentInfo  = $data["payment_info"];
+        $this->Balance      = $data["balance"];
+        $this->CreateIp     = $data["created_ip"];
         return $this;
 
     }

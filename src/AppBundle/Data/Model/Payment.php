@@ -9,7 +9,7 @@
 namespace AppBundle\Data\Model;
 
 
-class Payments
+class Payment
 {
     public $ID;
     public $UserId;

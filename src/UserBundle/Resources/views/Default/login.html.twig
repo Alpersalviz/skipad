@@ -1,0 +1,239 @@
+{% extends 'UserBundle:Default:base.html.twig' %}
+{% block stylesheet %}
+    <link rel="stylesheet" type="text/css" href="{{ asset('static/css/login.css') }}"/>
+{% endblock %}
+{% block login %}
+
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3">
+                <div class="alert alert-success" style="display: none">
+                    <strong>Kayıt Yapıldı Giriş Yapınız</strong>
+                </div>
+
+                <div class="alert register-alert alert-danger" style="display: none"><strong>Kayıt Yapılamad</strong></div>
+                <div class="alert login-alert alert-danger" style="display: none"><strong>Email Yada Şifre Hatalı</strong></div>
+                <div class="panel panel-login">
+                    <div class="panel-heading">
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <a href="#" class="active" id="login-form-link">Giriş</a>
+                            </div>
+                            <div class="col-xs-6">
+                                <a href="#" id="register-form-link">Kayıt Ol</a>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                    <div class="panel-body">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <form id="login-form" method="post" role="form" style="display: block;">
+                                    <div class="form-group">
+                                        <input  data-validation="email"  data-validation-error-msg="Lütfen gerçerli email adresi giriniz" type="text" name="email" id="email" tabindex="1" class="form-control" placeholder="Email" value="">
+                                    </div>
+                                    <div class="form-group">
+                                        <input  data-validation="required" type="password" name="password" id="password" tabindex="2" class="form-control" placeholder="Password">
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-sm-6 col-sm-offset-3">
+                                                <input type="submit" name="login-submit" id="login-submit" tabindex="4" class="form-control btn btn-login" value="Giriş Yap">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                <form id="register-form"  method="post" role="form" style="display: none;">
+                                    <div class="form-group">
+                                        <input  data-validation="email"  data-validation-error-msg="Lütfen gerçerli email adresi giriniz" type="text" name="email" id="email" tabindex="1" class="form-control" placeholder="Email" value="">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <input  data-validation="required" type="text" name="name" data-validation-error-msg="Lütfen isim giriniz" id="name" tabindex="1" class="form-control" placeholder="İsim" value="">
+                                    </div>
+                                    <div class="form-group">
+                                        <input  data-validation="required" type="text" name="surname" data-validation-error-msg="Lütfen soyisim giriniz" id="surname" tabindex="1" class="form-control" placeholder="Soyisim" value="">
+                                    </div>
+                                    <div class="form-group">
+                                        <input  data-validation="required" type="password" name="password"  data-validation-error-msg="Lütfen gerçerli şifre giriniz" id="password" tabindex="3" class="form-control" placeholder="Şifre">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <input  data-validation="required" data-validation-error-msg="Lütfen gerçerli adres giriniz" type="text" name="address1" id="address1" tabindex="4" class="form-control" placeholder="Adres">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" name="address2" id="address2" tabindex="5" class="form-control" placeholder="Adres">
+                                    </div>
+                                    <div class="form-group">
+                                        <input  data-validation="required" data-validation-error-msg="Lütfen gerçerli sehir giriniz" type="text" name="city" id="city" tabindex="6" class="form-control" placeholder="Şehir">
+                                    </div>
+                                    <div class="form-group">
+                                        <input  data-validation="required" type="text" name="country" data-validation-error-msg="Lütfen gerçerli ülke giriniz" id="country" tabindex="7" class="form-control" placeholder="Ülke">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" name="zip_code" id="zip_code" tabindex="8" class="form-control" placeholder="Posta Kodu">
+                                    </div>
+                                    <div class="form-group">
+                                        <input  data-validation="number" data-validation-error-msg="Lütfen gerçerli telefon giriniz" type="text" name="phone_number" id="phone_number" tabindex="9" class="form-control" placeholder="Telefon Numarası">
+                                    </div>
+                                    <div class="form-group">
+                                       Hesap Tipi:
+                                        <select class="form-control" name="account_type">
+                                            <option value="personel">Şirket</option>
+                                            <option value="corporate">Şahıs</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        Ödeme Tipi:
+                                        <select class="form-control" name="payment_type">
+                                            <option value="paypal">Paypal</option>
+                                            <option value="bank">Banka</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <input  data-validation="required" data-validation-error-msg="Lütfen gerçerli ödeme biligisi giriniz" type="payment_info" name="payment_info" id="payment_info" tabindex="12" class="form-control" placeholder="Ödeme Bilgisi">
+                                    </div>
+                                    <div class="form-group">
+                                        <div class="row">
+                                            <div class="col-sm-6 col-sm-offset-3">
+                                                <input type="submit" name="register-submit" id="register-submit" tabindex="4" class="form-control btn btn-register" value="Kayıt Ol">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+{% block javascript %}
+    <script>
+        var Forms={
+            Login:{
+                Self:$('#login-form'),
+                Field:{
+                    Email:$('#login-form input[name ="email"]'),
+                    Password:$('#login-form input[name ="password"]')
+
+                } ,
+                Bind:function () {
+                    Forms.Login.Self.on('submit',function (e) {
+                        e.preventDefault();
+                        $.post('{{ url('user_ajax_login') }}',$(this).serialize(),function (result) {
+                            if(result.success)
+                            {
+                                location.href="/user";
+                            }else {
+                                $('.login-alert').slideDown();
+                                setTimeout(function () {
+                                    $('.login-alert').slideUp()
+                                },1000)
+                            }
+                        })
+                    })
+                }
+            },
+
+            Add:{
+                Self:$('#register-form'),
+                Field:{
+                    Email           :$('#register-form input[name ="email"]'),
+                    Password        :$('#register-form input[name ="password"]'),
+                    UserType        :$('#register-form input[name ="user_type"]'),
+                    Name            :$('#register-form input[name ="name"]'),
+                    SurName         :$('#register-form input[name ="surname"]'),
+                    Address1        :$('#register-form input[name ="address1"]'),
+                    Address2        :$('#register-form input[name ="address1"]'),
+                    City            :$('#register-form input[name ="city"]'),
+                    Country         :$('#register-form input[name ="country"]'),
+                    ZipCode         :$('#register-form input[name ="zip_code"]'),
+                    PhoneNumber     :$('#register-form input[name ="phone_number"]'),
+                    AccountType     :$('#register-form select[name ="account_type"]'),
+                    PaymentType     :$('#register-form select[name ="payment_type"]'),
+                    PaymentInfo     :$('#register-form input[name ="payment_info"]')
+
+                } ,
+                Values :function () {
+                    return{
+                        Email           :Forms.Add.Field.Email.val(),
+                        Password        :Forms.Add.Field.Password.val(),
+                        UserType        :Forms.Add.Field.UserType.val(),
+                        Name            :Forms.Add.Field.Name.val(),
+                        SurName         :Forms.Add.Field.SurName.val(),
+                        Address1        :Forms.Add.Field.Address1.val(),
+                        Address2        :Forms.Add.Field.Address2.val(),
+                        City            :Forms.Add.Field.City.val(),
+                        Country         :Forms.Add.Field.Country.val(),
+                        ZipCode         :Forms.Add.Field.ZipCode.val(),
+                        PhoneNumber     :Forms.Add.Field.PhoneNumber.val(),
+                        AccountType     :Forms.Add.Field.AccountType.val(),
+                        PaymentType     :Forms.Add.Field.PaymentType.val(),
+                        PaymentInfo     :Forms.Add.Field.PaymentInfo.val()
+                    }
+                },
+                Bind:function () {
+                    Forms.Add.Self.on('submit',function (e) {
+                        e.preventDefault();
+                        $.post('{{ url('user_ajax_register') }}',Forms.Add.Values(),function (result) {
+                            if(result.success)
+                            {
+                                setTimeout(function () {
+                                    $('#login-form-link').trigger('click');
+                                    $('.alert-success').slideUp()
+                                },1000)
+                                $('.alert-success').slideDown()
+
+                            }else {
+                                setTimeout(function () {
+                                    $('.register-alert').slideUp()
+                                },1000)
+                                $('.register-alert').slideDown();
+                            }
+                        })
+                    })
+                }
+            },
+            Bind:function () {
+                    Forms.Add.Bind();
+                    Forms.Login.Bind();
+            }
+        }
+
+        $(document).ready(function () {
+            $.validate({
+                validateOnBlur : false,
+                errorMessagePosition : 'top',
+                scrollToTopOnError : false
+            });
+            Forms.Bind();
+
+        });
+        $(function() {
+
+            $('#login-form-link').click(function(e) {
+                $("#login-form").delay(100).fadeIn(100);
+                $("#register-form").fadeOut(100);
+                $('#register-form-link').removeClass('active');
+                $(this).addClass('active');
+                e.preventDefault();
+            });
+            $('#register-form-link').click(function(e) {
+                $("#register-form").delay(100).fadeIn(100);
+                $("#login-form").fadeOut(100);
+                $('#login-form-link').removeClass('active');
+                $(this).addClass('active');
+                e.preventDefault();
+            });
+
+        });
+
+    </script>
+{% endblock %}

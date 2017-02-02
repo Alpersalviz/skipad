@@ -1,0 +1,80 @@
+
+{% extends 'UserBundle:Default:base.html.twig' %}
+{% block content %}
+
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Ödeme</h1>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-green">
+                    <div class="panel-heading">
+                      Ödeme Bilgileri
+                    </div>
+                    <div class="panel-body">
+                        Ad-Soyad:{{ user.Name }} {{ user.SurName }}</br>
+                        Banka: {{ user.PaymentInfo }}</br>
+                        Email: {{ user.Email }} Telefon Numarası:{{ user.PhoneNumber }}
+
+                    </div>
+                    <div class="panel-footer">
+                        Bakiye: {{ user.Balance }} TL
+                    </div>
+                </div>
+            </div>
+           <form id="get-payment" method="post" role="form" >
+
+
+                   <input type="hidden" name="payment_type" id="payment_type" tabindex="11" value="{{ user.PaymentType }}" class="form-control" placeholder="Ödeme Şekli">
+
+                   <input type="hidden" name="payment_info" id="payment_info" tabindex="12" class="form-control" value="{{ user.PaymentInfo }}" placeholder="Ödeme Bilgisi">
+                   <input type="hidden" name="balance" id="payment_info" tabindex="12" class="form-control" value="{{ user.Balance }}" placeholder="Ödeme Bilgisi">
+
+               <div class="col-sm-6 col-sm-offset-3">
+                   <input type="submit" class="btn btn-primary btn-lg" name="get-payment-submit" id="get-payment-submit" tabindex="4" class="form-control btn btn-register" value="Ödeme Al">
+               </div>
+           </form>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}
+
+
+{% block javascript %}
+    <script>
+        var Forms={
+            Link:{
+                Self:$('#get-payment'),
+                Bind:function () {
+                    Forms.Link.Self.on('submit',function (e) {
+                        e.preventDefault();
+                        $.post('{{ url('user_ajax_get_payment') }}',$(this).serialize(),function (result) {
+                            if(result.success)
+                            {
+                                alert('Link Düzenlendi')
+                            }else {
+                                alert('Url Düzenlenemedi')
+                            }
+                        })
+                    })
+                }
+            },
+
+            Bind:function () {
+                Forms.Link.Bind();
+            }
+        }
+
+        $(document).ready(function () {
+            Forms.Bind();
+
+        });
+
+
+    </script>
+{% endblock %}

@@ -17,7 +17,6 @@ class Ads
     public $Url;
     public $AdType;
     public $Impression;
-    public $Earn;
     public $UserId;
     public $CreatedDate;
     public $CreatedIp;
@@ -31,9 +30,8 @@ class Ads
         $this->Url = $data["url"];
         $this->AdType = $data["ad_type"];
         $this->Impression = $data["impression"];
-        $this->Earn = $data["earn"];
-        $this->UserId = $data["userid"];
-        $this->CreatedDate = $data["created_data"];
+        $this->UserId = $data["user_id"];
+        $this->CreatedDate = $data["created_date"];
         $this->CreatedIp = $data["created_ip"];
         $this->Ppc = $data["ppc"];
         $this->FirstPrice = $data["first_price"];

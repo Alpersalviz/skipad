@@ -1,0 +1,34 @@
+services:
+#    user.example:
+#        class: UserBundle\Example
+#        arguments: ["@service_id", "plain_value", "%parameter%"]
+
+      user.base_controller:
+          class: UserBundle\Controller\BaseController
+          abstract: true
+          calls:
+              - [ Initialize, ["@session"] ]
+
+      user.default_controller:
+          class: UserBundle\Controller\DefaultController
+          arguments: ["@app.user_repository"]
+          parent: "user.base_controller"
+
+
+      user.url_controller:
+          class: UserBundle\Controller\UrlController
+          arguments: ["@app.url_repository"]
+          parent: "user.base_controller"
+
+      user.advertiser_controller:
+          class: UserBundle\Controller\AdvertiserController
+          arguments: ["@app.advertiser_repository","@app.settings_repository","@app.user_repository"]
+          parent: "user.base_controller"
+
+      user.payment_controller:
+          class: UserBundle\Controller\PaymentController
+          arguments: ["@app.user_repository","@app.payment_repository"]
+          parent: "user.base_controller"
+
+
+

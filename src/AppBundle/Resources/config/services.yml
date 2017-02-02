@@ -24,6 +24,7 @@ services:
       app.default_controller:
           class: AppBundle\Controller\DefaultController
           parent: app.base_controller
+          arguments: ["@app.user_repository","@app.url_repository"]
 
       app.base_repository:
           class: AppBundle\Data\Repository\BaseRepository
@@ -32,4 +33,21 @@ services:
 
       app.user_repository:
           class: AppBundle\Data\Repository\UserRepository
+          parent: app.base_repository
+
+      app.url_repository:
+          class: AppBundle\Data\Repository\UrlRepository
+          parent: app.base_repository
+
+      app.advertiser_repository:
+          class: AppBundle\Data\Repository\AdvertiserRepository
+          parent: app.base_repository
+          arguments: ["@app.user_repository"]
+
+      app.settings_repository:
+          class: AppBundle\Data\Repository\SettingsRepository
+          parent: app.base_repository
+
+      app.payment_repository:
+          class: AppBundle\Data\Repository\PaymentRepository
           parent: app.base_repository

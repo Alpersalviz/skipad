@@ -21,7 +21,7 @@ class ExceptionListener
     {
 
         $isAdminBundle          = strpos($event->getRequest()->getPathInfo(),'/admin/') !== false;
-
+        $isUserBundle          = strpos($event->getRequest()->getPathInfo(),'/user/') !== false;
 
 
 
@@ -44,6 +44,11 @@ class ExceptionListener
         if($statusCode == 401){
             if($isAdminBundle){
                 $event->setResponse(new \Symfony\Component\HttpFoundation\RedirectResponse('/admin/login'));
+                return;
+            }
+
+            if($isUserBundle){
+                $event->setResponse(new \Symfony\Component\HttpFoundation\RedirectResponse('/user/login'));
                 return;
             }
         }
