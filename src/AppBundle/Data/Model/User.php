@@ -21,6 +21,7 @@ class User
     public $PaymentInfo;
     public $Balance;
     public $CreateIp;
+    public $Publish;
 
     /**
      * return User
@@ -42,8 +43,9 @@ class User
         $this->AccountType  = $data["account_type"];
         $this->PaymentType  = $data["payment_type"];
         $this->PaymentInfo  = $data["payment_info"];
-        $this->Balance      = $data["balance"];
+        $this->Balance      = (float)$data["balance"];
         $this->CreateIp     = $data["created_ip"];
+        $this->Publish      = $data["publish"];
         return $this;
 
     }

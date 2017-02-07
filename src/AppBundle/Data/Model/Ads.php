@@ -23,6 +23,7 @@ class Ads
     public $Ppc;
     public $FirstPrice;
     public $CurrentPrice;
+    public $Publish;
 
     public function MapFrom($data){
         $this->ID = $data["ID"];
@@ -36,6 +37,7 @@ class Ads
         $this->Ppc = $data["ppc"];
         $this->FirstPrice = $data["first_price"];
         $this->CurrentPrice = $data["current_price"];
+        $this->Publish = $data["publish"];
 
         return $this;
     }

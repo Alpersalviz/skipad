@@ -9,30 +9,43 @@
             </div>
             <!-- /.col-lg-12 -->
         </div>
+        <div class="alert alert-success" style="display: none">
+            <strong>Ödeme bildiriminizi aldık, ödeme en kısa zamanda hesabınıza geçicektir</strong>
+        </div>
+
+        <div class="alert alert-danger" style="display: none">
+            <strong>Hata oluştu tekrar deneyiniz</strong>
+        </div>
         <div class="row">
+
+            <form id="set-payment" method="post" role="form" >
             <div class="col-lg-12">
                 <div class="panel panel-green">
                     <div class="panel-heading">
                         Ödeme Bilgileri
                     </div>
                     <div class="panel-body">
-                        Ad-Soyad:{{ user.Name }} {{ user.SurName }}</br>
-                        Banka: {{ user.PaymentInfo }}</br>
-                        Email: {{ user.Email }} Telefon Numarası:{{ user.PhoneNumber }}
-
+                        {{ setting.PaymentInfo| raw }}
                     </div>
+                        <div class="row" style="padding: 10px">
+                    <div class="col-lg-8">
+                    <label>Ödeme Yaptığınız Miktar:</label>
+                    <input type="text" data-validation-error-msg="Lütfen sayı giriniz"  data-validation="number" name="balance" id="balance" tabindex="12" class="form-control" placeholder="Ödeme Miktarı">
+                        <br/>
+                        <label>Ödeme Yaptığınız Banka:</label>
+                    <select class="form-control select" name="bank">
+                        {% for bank in setting.PaymentBanks|split(',') %}
+                            <option>{{ bank }}</option>
+                        {% endfor %}
+                    </select>
+                        </div>
+                        </div>
                     <div class="panel-footer">
                         Bakiye: {{ user.Balance }} TL
                     </div>
                 </div>
             </div>
-            <form id="set-payment" method="post" role="form" >
 
-
-                <input type="hidden" name="payment_type" id="payment_type" tabindex="11" value="{{ user.PaymentType }}" class="form-control" placeholder="Ödeme Şekli">
-
-                <input type="hidden" name="payment_info" id="payment_info" tabindex="12" class="form-control" value="{{ user.PaymentInfo }}" placeholder="Ödeme Bilgisi">
-                <input type="hidden" name="balance" id="payment_info" tabindex="12" class="form-control" value="{{ user.Balance }}" placeholder="Ödeme Bilgisi">
 
                 <div class="col-sm-6 col-sm-offset-3">
                     <input type="submit" class="btn btn-primary btn-lg" name="get-payment-submit" id="set-payment-submit" tabindex="4" class="form-control btn btn-register" value="Bakiye Yükle">
@@ -56,9 +69,12 @@
                         $.post('{{ url('user_ajax_set_payment') }}',$(this).serialize(),function (result) {
                             if(result.success)
                             {
-                                alert('Link Düzenlendi')
+                                setTimeout(function () {
+                                    location.reload();
+                                },1000);
+                                $('.alert-success').slideDown();
                             }else {
-                                alert('Url Düzenlenemedi')
+                                $('.alert-danger').slideDown();
                             }
                         })
                     })
@@ -71,6 +87,11 @@
         }
 
         $(document).ready(function () {
+            $.validate({
+                validateOnBlur : false,
+                errorMessagePosition : 'top',
+                scrollToTopOnError : false
+            });
             Forms.Bind();
 
         });

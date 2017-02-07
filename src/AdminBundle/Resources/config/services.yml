@@ -14,3 +14,28 @@ services:
           arguments: ["@app.user_repository"]
           parent: "admin.base_controller"
 
+      admin.user_controller:
+          class: AdminBundle\Controller\UserController
+          arguments: ["@app.user_repository"]
+          parent: "admin.base_controller"
+
+      admin.payment_controller:
+          class: AdminBundle\Controller\PaymentController
+          arguments: ["@app.user_repository","@app.payment_repository"]
+          parent: "admin.base_controller"
+
+      admin.advertiser_controller:
+          class: AdminBundle\Controller\AdvertiserController
+          arguments: ["@app.advertiser_repository"]
+          parent: "admin.base_controller"
+
+      admin.url_controller:
+          class: AdminBundle\Controller\UrlController
+          arguments: ["@app.url_repository"]
+          parent: "admin.base_controller"
+
+      admin.setting_controller:
+          class: AdminBundle\Controller\SettingController
+          arguments: ["@app.settings_repository"]
+          parent: "admin.base_controller"
+

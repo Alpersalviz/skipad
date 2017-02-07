@@ -24,7 +24,7 @@ services:
       app.default_controller:
           class: AppBundle\Controller\DefaultController
           parent: app.base_controller
-          arguments: ["@app.user_repository","@app.url_repository"]
+          arguments: ["@app.user_repository","@app.url_repository","@app.advertiser_repository","@app.adip_repository","@app.settings_repository"]
 
       app.base_repository:
           class: AppBundle\Data\Repository\BaseRepository
@@ -50,4 +50,8 @@ services:
 
       app.payment_repository:
           class: AppBundle\Data\Repository\PaymentRepository
+          parent: app.base_repository
+
+      app.adip_repository:
+          class: AppBundle\Data\Repository\AdIpRepository
           parent: app.base_repository

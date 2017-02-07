@@ -36,6 +36,36 @@ class UserRepository extends BaseRepository
             return false;
         }
     }
+
+    public function GetUserByType()
+    {
+        try
+        {
+            $query = "SELECT *  
+                      FROM user
+                      WHERE user_type = 'user'";
+
+            $result = $this->getConnection()->prepare($query);
+            $result->execute();
+            $results = $result->fetchAll();
+
+            if ($result === false)
+                return false;
+
+            $users = [];
+
+            foreach ($results as &$result)
+            {
+                $users[] = (new User())->MapFrom($result);
+            }
+
+            return $users;
+
+        }catch (Exception $e)
+        {
+            return false;
+        }
+    }
     public function GetUserById($id)
     {
         try
@@ -56,6 +86,29 @@ class UserRepository extends BaseRepository
             $user = (new User())->MapFrom($result);
 
             return $user;
+
+        }catch (Exception $e)
+        {
+            return false;
+        }
+    }
+
+    public function UpdateUserPublish($id,$publish)
+    {
+        try
+        {
+            $query = "UPDATE user  
+                      SET publish = :publish
+                      WHERE ID = :id";
+
+            $result = $this->getConnection()->prepare($query);
+            $result->execute(array(
+                ':id'       => $id,
+                ':publish'  => $publish
+            ));
+
+
+            return $result;
 
         }catch (Exception $e)
         {
@@ -96,13 +149,42 @@ class UserRepository extends BaseRepository
                 ':password'     => $password,
                 ':user_type'    => $userType
             ));
+            $result = $result->fetch();
 
-           $result = $result->fetch();
+            if ($result === false){
+                return array(
+                    'user' => false,
+                    'message' => "Kullanıcı Adı yada şifre hatalı"
+                );
+            }else{
 
-            if ($result === false)
-                return false;
+                $queryPublish="SELECT *
+                    From user WHERE email = :email AND password = :password AND user_type = :user_type AND publish = 1";
+                $resultPublish = $this->getConnection()->prepare($queryPublish);
 
-            return (new User())->MapFrom($result);
+                $resultPublish->execute(array(
+                    ':email'        => $email,
+                    ':password'     => $password,
+                    ':user_type'    => $userType
+                ));
+
+
+                $resultPublish = $resultPublish->fetch();
+                if ($resultPublish === false){
+                    return array(
+                        'user' => false,
+                        'message' => "Banlandığınız için giriş yapamazsınız"
+                    );
+                }
+
+                return array(
+                    'user' =>  (new User())->MapFrom($resultPublish),
+                    'message' => "Giriş Başarılı"
+                );
+
+            }
+
+
 
         }catch (Exception $e){
             return false;
@@ -117,8 +199,8 @@ class UserRepository extends BaseRepository
         try{
 
             $query="INSERT INTO user
-                  (email, password, user_type, name, surname, address1, address2, city, country, zip_code, phone_number, account_type, payment_type, payment_info, balance, created_ip)VALUES
-                  (:email, :password, :user_type, :name, :surname, :address1, :address2, :city, :country, :zip_code, :phone_number, :account_type, :payment_type, :payment_info, :balance, :created_ip);";
+                  (email, password, user_type, name, surname, address1, address2, city, country, zip_code, phone_number, account_type, payment_type, payment_info, balance, created_ip,publish)VALUES
+                  (:email, :password, :user_type, :name, :surname, :address1, :address2, :city, :country, :zip_code, :phone_number, :account_type, :payment_type, :payment_info, :balance, :created_ip),:publish;";
 
             $result = $this->getConnection()->prepare($query);
             $result->execute(array(
@@ -137,7 +219,8 @@ class UserRepository extends BaseRepository
                 ':payment_type'     =>$user->PaymentType,
                 ':payment_info'     =>$user->PaymentInfo,
                 ':balance'          =>0,
-                ':created_ip'       =>$user->CreateIp
+                ':created_ip'       =>$user->CreateIp,
+                ':publish'          =>1
             ));
 
             if ($result === false)
@@ -156,11 +239,9 @@ class UserRepository extends BaseRepository
         try{
 
             $query="UPDATE user SET
-                  email = :email, password = :password , user_type = :user_type, name = :name, surname =:surname, address1 = :address1, address2 = :address2, city = :city, country = :country, zip_code =:zip_code, phone_number = :phone_number, account_type = :account_type, payment_type = :payment_type, payment_info = :payment_info 
-                  WHERE ID = :id";
+                  email = :email, password = :password , user_type = :user_type, name = :name, surname =:surname, address1 = :address1, address2 = :address2, city = :city, country = :country, zip_code =:zip_code, phone_number = :phone_number, account_type = :account_type, payment_type = :payment_type, payment_info = :payment_info";
 
-            $result = $this->getConnection()->prepare($query);
-            $result->execute(array(
+            $parameters = array(
                 ':id'               =>$user->ID,
                 ':email'            =>$user->Email,
                 ':password'         =>$user->Password,
@@ -176,7 +257,16 @@ class UserRepository extends BaseRepository
                 ':account_type'     =>$user->AccountType,
                 ':payment_type'     =>$user->PaymentType,
                 ':payment_info'     =>$user->PaymentInfo
-            ));
+            );
+
+            if($user->Balance != null){
+                $query .=", balance = :balance";
+                $parameters[":balance"] = $user->Balance;
+
+            }
+            $query .=" WHERE ID = :id";
+            $result = $this->getConnection()->prepare($query);
+            $result->execute($parameters);
 
             if ($result === false)
                 return false;

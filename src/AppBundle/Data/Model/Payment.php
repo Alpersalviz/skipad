@@ -17,6 +17,8 @@ class Payment
     public $Status;
     public $Balance;
     public $PaymentInfo;
+    public $Type;
+    public $PaymentDate;
 
     public function MapFrom($data){
         $this->ID = $data["ID"];
@@ -25,6 +27,8 @@ class Payment
         $this->Status = $data["status"];
         $this->Balance = $data["balance"];
         $this->PaymentInfo = $data["payment_info"];
+        $this->Type = $data["type"];
+        $this->PaymentDate = $data["payment_date"];
 
         return $this;
     }

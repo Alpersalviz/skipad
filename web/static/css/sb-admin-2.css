@@ -432,3 +432,11 @@ table.dataTable thead .sorting:after {
     border-left-width: 0;
   }
 }
+
+
+.table tr td span{
+  text-overflow: ellipsis;
+  width: 227px;
+  display: block;
+  overflow: hidden;
+}

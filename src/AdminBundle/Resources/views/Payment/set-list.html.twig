@@ -1,0 +1,91 @@
+{% extends 'AdminBundle:Default:base.html.twig' %}
+{% block content %}
+
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Ödeme İstekleri</h1>
+
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <div class="row">
+
+            <div class="alert alert-success" style="display: none">
+                <strong>Ödeme Onaylandı</strong>
+            </div>
+
+            <div class="alert register-alert alert-danger" style="display: none"><strong>Onaylama Yapılamadı</strong></div>
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Email</th>
+                            <th>İsim</th>
+                            <th>Soyisim</th>
+                            <th>Telefon Numarası</th>
+                            <th>İstek Miktari</th>
+                            <th>İstek Tarihi</th>
+                            <th>Banka Bilgisi</th>
+                            <th>Durum</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        {% for userPayment in userPayments %}
+                            <tr>
+                                <td></td>
+                                <td>{{ userPayment.Email }}</td>
+                                <td>{{ userPayment.Name }}</td>
+                                <td>{{ userPayment.SurName }}</td>
+                                <td>{{ userPayment.PhoneNumber }}</td>
+                                <td>{{ userPayment.Balance }}</div> </td>
+                                <td>{{ userPayment.PaymentDate }}</td>
+                                <td>{{ userPayment.PaymentInfo }}</td>
+                                <td>{% if (userPayment.Status == 'wait') %} Onay Bekliyor {% else %} Onay Verildi {% endif %}</td>
+                                <td> {% if (userPayment.Status == 'wait') %}<button type="button"  data-id="{{ userPayment.PaymentId }}" class="payment-confirm btn btn-danger glyphicon glyphicon-ok"></button> {% endif %}    <div class="alert register-alert alert-danger-confirm" style="display: none"><strong>Bakiye aktarılcak emin misiniz?</strong> <button type="button" data-balance="{{ userPayment.Balance }}" data-userid="{{ userPayment.UserId }}"  data-id="{{ userPayment.PaymentId }}" class="payment-confirm-confirm btn btn-primary">Evet</button>  <button type="button"  data-id="{{ userPayment.PaymentId }}" class="payment-confirm-cancel btn btn-primary">Hayır</button></div></td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.table-responsive -->
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascript %}
+    <script>
+        $(document).on('click','.payment-confirm',function () {
+            $(this).next('.alert-danger-confirm').slideDown();
+        });
+        $(document).on('click','.payment-confirm-cancel',function () {
+            $(this).parent().slideUp();
+        });
+        $(document).on('click','.payment-confirm-confirm',function () {
+            var id= $(this).data('id');
+            var balance= $(this).data('balance');
+            var userId=  $(this).data('userid');
+            $.post('{{ url('admin_payment_set_confirm') }}' , {
+                id:id,
+                userId:userId,
+                balance:balance
+            }, function (result) {
+                if(result){
+                    setTimeout(function () {
+                        location.reload();
+                    })
+                    $('.alert-success').slideDown();
+
+                }else{
+                    $('.alert-danger').slideDown();
+                }
+
+            });
+        });
+
+    </script>
+{% endblock %}

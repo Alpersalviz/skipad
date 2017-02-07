@@ -24,7 +24,7 @@ class DefaultController extends BaseController
 
     /**
      * @Route("/",name="user")
-     * @Template("UserBundle:Default:index.html.twig")
+     * @Template("UserBundle:Url:add.html.twig")
      */
     public function indexAction()
     {
@@ -53,17 +53,25 @@ class DefaultController extends BaseController
     {
         $email = $request->request->get('email');
         $password = $request->request->get('password');
-        $user = $this->_userRepository->LoginUser($email, $password, 'user');
-        if ($user != false) {
+        $user = $this->_userRepository->LoginUser($email, $password, 'user'); 
+        if ($user["user"] != false) {
 
-            $this->GetSession()->set('id', $user->ID);
-            $this->GetSession()->set('email', $user->Email);
-            $this->GetSession()->set('usertype', $user->UserType);
+            $this->GetSession()->set('id', $user["user"]->ID);
+            $this->GetSession()->set('email', $user["user"]->Email);
+            $this->GetSession()->set('usertype', $user["user"]->UserType);
+
+            return new JsonResponse(array(
+                 'success' => true,
+                 'message' => "Başarılı"
+            ));
         }
 
         return new JsonResponse(array(
-            'success' => !($user == false)
+            'success' => false,
+            'message' => $user["message"]
         ));
+
+
 
     }
     /**
@@ -89,6 +97,7 @@ class DefaultController extends BaseController
         $user->PaymentType  =$data["PaymentType"];
         $user->PaymentInfo  =$data["PaymentInfo"];
         $user->CreateIp     =$request->getClientIp();
+        $user->Publish      =1;
 
         $register = $this->_userRepository->RegisterUser($user);
 

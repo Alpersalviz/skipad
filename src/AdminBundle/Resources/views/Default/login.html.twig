@@ -64,10 +64,11 @@
                         {
                             location.href = "/admin"
                         }else {
-                            $(".alert-danger").slideDown();
+                            $('.login-alert strong').text(result.message);
+                            $('.login-alert').slideDown();
                             setTimeout(function () {
-                                $(".alert-danger").slideUp();
-                            },1000);
+                                $('.login-alert').slideUp();
+                            },2000)
                         }
                     })
                 })

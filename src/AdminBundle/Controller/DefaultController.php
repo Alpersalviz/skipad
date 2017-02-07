@@ -49,19 +49,27 @@ class DefaultController extends BaseController
      */
     public function AjaxLoginAction(Request $request)
     {
-        $email = $request->request->get('email');
-        $password =  $request->request->get('password');
-        $user = $this->_userRepository->LoginUser($email,$password,'admin');
-        if ($user != false) {
 
-            $this->GetSession()->set('id',$user->ID);
-            $this->GetSession()->set('email',$user->Email);
-            $this->GetSession()->set('usertype',$user->UserType);
+        $email = $request->request->get('email');
+        $password = $request->request->get('password');
+        $user = $this->_userRepository->LoginUser($email, $password, 'admin');
+        if ($user["user"] != false) {
+
+            $this->GetSession()->set('id', $user["user"]->ID);
+            $this->GetSession()->set('email', $user["user"]->Email);
+            $this->GetSession()->set('usertype', $user["user"]->UserType);
+
+            return new JsonResponse(array(
+                'success' => true,
+                'message' => "Başarılı"
+            ));
         }
 
         return new JsonResponse(array(
-            'success' => !($user == false)
+            'success' => false,
+            'message' => $user["message"]
         ));
+
 
     }
     /**

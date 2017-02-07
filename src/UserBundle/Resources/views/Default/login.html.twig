@@ -12,7 +12,7 @@
                 </div>
 
                 <div class="alert register-alert alert-danger" style="display: none"><strong>Kayıt Yapılamad</strong></div>
-                <div class="alert login-alert alert-danger" style="display: none"><strong>Email Yada Şifre Hatalı</strong></div>
+                <div class="alert login-alert alert-danger" style="display: none"><strong></strong></div>
                 <div class="panel panel-login">
                     <div class="panel-heading">
                         <div class="row">
@@ -132,10 +132,12 @@
                             {
                                 location.href="/user";
                             }else {
+
+                                $('.login-alert strong').text(result.message);
                                 $('.login-alert').slideDown();
                                 setTimeout(function () {
-                                    $('.login-alert').slideUp()
-                                },1000)
+                                    $('.login-alert').slideUp();
+                                },2000)
                             }
                         })
                     })

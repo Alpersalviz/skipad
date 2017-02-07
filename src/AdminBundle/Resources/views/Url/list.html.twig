@@ -1,0 +1,97 @@
+{% extends 'AdminBundle:Default:base.html.twig' %}
+{% block content %}
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Linkler</h1>
+                <div class="alert alert-success" style="display: none">
+                    <strong>Silindi!</strong>
+                </div>
+
+                <div class="alert alert-danger" style="display: none"><strong>Silinemedi!</strong></div>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <div class="row">
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Link</th>
+                            <th>Yönlendirilen Link</th>
+                            <th>Kazanılan Para</th>
+                            <th>Gösterim</th>
+                            <th>Oluşturulma Tarihi</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        {% for url in urls %}
+                            <tr>
+                                <td></td>
+                                <td>
+                                    <a href="{{ url("homepage_url_redirect",{ 'url' :url.Url }) }}"><span>{{ url.Url }}</span></a>
+                                </td>
+                                <td><span>{{ url.RedirectUrl }}</span></td>
+                                <td>{{ url.Price }}</td>
+                                <td>{{ url.Impression }}</td>
+                                <td>{{ url.CreatedDate }}</td>
+                                <td>
+                                    <button type="button" style="display: none"
+                                            onclick="location.href='{{ url("user_url_update",{ 'id' :url.ID }) }}';"
+                                            class="edit btn btn-primary glyphicon glyphicon-pencil"></button>
+                                    <button type="button" data-id="{{ url.ID }}"
+                                            class="link-remove edit btn btn-primary glyphicon glyphicon-remove"></button>
+                                    <div class="alert register-alert alert-danger-confirm" style="display: none">
+                                        <strong>Link Silinicek emin misiniz?</strong>
+                                        <button type="button"
+                                                data-id="{{ url.ID }}"
+                                                class="link-remove-confirm btn btn-primary">Evet
+                                        </button>
+                                        <button type="button"
+                                                class="link-remove-cancel btn btn-primary">Hayır
+                                        </button>
+                                    </div>
+
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.table-responsive -->
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascript %}
+    <script>
+        $(document).on('click', '.link-remove ', function () {
+            $(this).next().slideDown();
+
+        });
+        $(document).on('click', '.link-remove-cancel ', function () {
+            $(this).parent().slideUp();
+
+        });
+        $(document).on('click', '.link-remove-confirm ', function () {
+            var id = $(this).data('id');
+            $.post('{{ url('admin_ajax_url_delete') }}', {
+                id: id
+            }, function (result) {
+                if (result) {
+                    location.reload();
+                    $('.alert-success').slideDown();
+
+                } else {
+                    $('.alert-danger').slideDown();
+                }
+
+            });
+        });
+
+    </script>
+{% endblock %}

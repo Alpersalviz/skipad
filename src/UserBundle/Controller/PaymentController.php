@@ -9,6 +9,7 @@
 namespace UserBundle\Controller;
 use AppBundle\Data\Model\Payment;
 use AppBundle\Data\Repository\PaymentRepository;
+use AppBundle\Data\Repository\SettingsRepository;
 use AppBundle\Data\Repository\UserRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
@@ -26,10 +27,13 @@ class PaymentController extends BaseController
 
     private $_paymentRepository;
 
-    function __construct(UserRepository $userRepository , PaymentRepository $paymentRepository)
+    private  $_setttingsRepository;
+
+    function __construct(UserRepository $userRepository , PaymentRepository $paymentRepository ,SettingsRepository $settingsRepository)
     {
         $this->_userRepository = $userRepository;
         $this->_paymentRepository = $paymentRepository;
+        $this->_setttingsRepository = $settingsRepository;
 
     }
 
@@ -41,24 +45,52 @@ class PaymentController extends BaseController
     {
         $id= $this->GetSession()->get("id");
         $users = $this->_userRepository->GetUserById($id);
+
+        $setting = $this->_setttingsRepository->GetSetting();
         return array(
-            'user' => $users
+            'user' => $users,
+            'setting'=> $setting
         );
     }
 
+    /**
+     * @Route("/list/payment/{type}",name="user_list_payment")
+     * @Template("UserBundle:Payment:list.html.twig")
+     */
+    public function ListPaymentAction($type)
+    {
+        
+        $id= $this->GetSession()->get("id");
+        $payments = $this->_paymentRepository->GetPayments($type,$id);
+        return array(
+            'payments' => $payments,
+            'type' => $type
+        );
+    }
     /**
      * @Route("/ajax/get/payment",name="user_ajax_get_payment")
      */
     public function AjaxGetPaymentAction(Request $request)
     {
-        $data = $request->request->all();
         $payment = New Payment();
+        $id= $this->GetSession()->get("id");
+        $user = $this->_userRepository->GetUserById($id);
+        $setting = $this->_setttingsRepository->GetSetting();
 
-        $payment->UserId        = $this->GetSession()->get("id");
-        $payment->Balance       = $data["balance"];
-        $payment->PaymentInfo   = $data["payment_info"];
-        $payment->PaymentType   = $data["payment_type"];
+        if($setting->MinimumPayment > $user->Balance){
+
+            return new JsonResponse(array(
+                'success' => false
+            ));
+
+        }
+
+        $payment->UserId        = $id;
+        $payment->Balance       = $user->Balance;
+        $payment->PaymentInfo   = $user->PaymentInfo;
+        $payment->PaymentType   = $user->PaymentType;
         $payment->Status        = "wait";
+        $payment->Type          = "send";
 
         $getPayment = $this->_paymentRepository->AddPayment($payment);
 
@@ -75,8 +107,11 @@ class PaymentController extends BaseController
     {
         $id= $this->GetSession()->get("id");
         $users = $this->_userRepository->GetUserById($id);
+        $setting = $this->_setttingsRepository->GetSetting();
+
         return array(
-            'user' => $users
+            'user' => $users,
+            'setting' => $setting
         );
     }
 
@@ -91,9 +126,9 @@ class PaymentController extends BaseController
 
         $payment->UserId        = $this->GetSession()->get("id");
         $payment->Balance       = $data["balance"];
-        $payment->PaymentInfo   = $data["payment_info"];
-        $payment->PaymentType   = $data["payment_type"];
+        $payment->PaymentInfo   = $data["bank"];
         $payment->Status        = "wait";
+        $payment->Type          = "notification";
 
         $getPayment = $this->_paymentRepository->AddPayment($payment);
 

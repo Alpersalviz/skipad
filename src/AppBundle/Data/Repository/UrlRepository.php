@@ -21,7 +21,8 @@ class UrlRepository extends BaseRepository
         try{
             $query="SELECT *
                     FROM urls 
-                    WHERE user_id = :user_id";
+                    WHERE user_id = :user_id
+                    ORDER BY created_date DESC";
             $result = $this->getConnection()->prepare($query);
             $result->execute(array(
                 ':user_id' => $userId
@@ -65,6 +66,29 @@ class UrlRepository extends BaseRepository
         }
     }
 
+    public function GetUrl(){
+
+        try{
+            $query="SELECT *
+                    FROM urls  
+                    ORDER BY created_date DESC";
+            $result = $this->getConnection()->prepare($query);
+            $result->execute();
+            $results = $result->fetchAll();
+
+            $urls = array();
+
+            foreach ($results as $result){
+                $urls[] = (new Url())->MapFrom($result);
+            }
+
+            return $urls;
+
+
+        }catch (Exception $e){
+            return false;
+        }
+    }
 
     public function AddUrl($redirectUrl,$randomUrl,$userId){
 
@@ -194,6 +218,29 @@ class UrlRepository extends BaseRepository
             return true;
 
         } catch (Exception $e) {
+            return false;
+        }
+    }
+
+    public function UpdateImpression($urlId,$price)
+    {
+        try{
+
+            $query="UPDATE urls 
+                    SET impression = impression +1 , price = price + :price
+                    WHERE ID = :id";
+
+
+            $result = $this->getConnection()->prepare($query);
+            $result->execute(array(
+                ':price'  =>$price,
+                ':id'     =>$urlId,
+            ));
+
+            return $result;
+
+
+        }catch (Exception $e){
             return false;
         }
     }

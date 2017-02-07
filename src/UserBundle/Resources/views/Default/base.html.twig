@@ -81,6 +81,9 @@
                             <a href="{{ url("user_url_add") }}">Link Oluştur</a>
                         </li>
                         <li>
+                            <a href="{{ url("user_list_payment",{ 'type' : 'send' }) }}">Ödeme İsteklerim</a>
+                        </li>
+                        <li>
                             <a href="{{ url("user_get_payment") }}">Ödeme Almak İstiyorum</a>
                         </li>
 
@@ -95,6 +98,9 @@
                         </li>
                         <li>
                             <a href="{{ url("user_advertiser_add") }}">Reklam Oluştur</a>
+                        </li>
+                        <li>
+                            <a href="{{ url("user_list_payment",{ 'type' : 'notification' }) }}">Ödeme Bildirimlerim</a>
                         </li>
                         <li>
                             <a href="{{ url("user_set_payment") }}">Ödeme Yaptım</a>

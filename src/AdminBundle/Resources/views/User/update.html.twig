@@ -1,0 +1,171 @@
+{% extends 'AdminBundle:Default:base.html.twig' %}
+
+{% block content %}
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Üye Düzenle</h1>
+
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="alert alert-success" style="display: none">
+                    <strong>Düzenleme Yapıldı</strong>
+                </div>
+
+                <div class="alert register-alert alert-danger" style="display: none"><strong>Düzenleme Yapılamadı</strong></div>
+
+                <div class="row">
+                    <div class="col-lg-12">
+                        <form id="update-form"  method="post" role="form">
+                            <div class="form-group">
+                                <input  data-validation="email"  data-validation-error-msg="Lütfen gerçerli email adresi giriniz" type="text" name="email" id="email" tabindex="1" class="form-control" placeholder="Email" value="{{ user.Email }}">
+                                <input   type="hidden" name="userId" id="userId" tabindex="1" value="{{ user.ID }}">
+                            </div>
+
+                            <div class="form-group">
+                                <input  data-validation="required" type="text" name="name" data-validation-error-msg="Lütfen isim giriniz" id="name" tabindex="1" class="form-control" placeholder="İsim" value="{{ user.Name }}">
+                            </div>
+                            <div class="form-group">
+                                <input  data-validation="required" type="text" name="surname" data-validation-error-msg="Lütfen soyisim giriniz" id="surname" tabindex="1" class="form-control" placeholder="Soyisim" value="{{ user.SurName }}">
+                            </div>
+                            <div class="form-group">
+                                <input  data-validation="required" type="password" name="password"  data-validation-error-msg="Lütfen gerçerli şifre giriniz" id="password" tabindex="3" class="form-control" placeholder="Şifre" value="{{ user.Password }}">
+                            </div>
+
+                            <div class="form-group">
+                                <input  data-validation="required" data-validation-error-msg="Lütfen gerçerli adres giriniz" type="text" name="address1" id="address1" tabindex="4" class="form-control" placeholder="Adres" value="{{ user.Address1 }}">
+                            </div>
+                            <div class="form-group">
+                                <input type="text" name="address2" id="address2" tabindex="5" class="form-control" placeholder="Adres" value="{{ user.Address2 }}">
+                            </div>
+                            <div class="form-group">
+                                <input  data-validation="required" data-validation-error-msg="Lütfen gerçerli sehir giriniz" type="text" name="city" id="city" tabindex="6" class="form-control" placeholder="Şehir" value="{{ user.City }}">
+                            </div>
+                            <div class="form-group">
+                                <input  data-validation="required" type="text" name="country" data-validation-error-msg="Lütfen gerçerli ülke giriniz" id="country" tabindex="7" class="form-control" placeholder="Ülke" value="{{ user.Country }}">
+                            </div>
+                            <div class="form-group">
+                                <input type="text" name="zip_code" id="zip_code" tabindex="8" class="form-control" placeholder="Posta Kodu" value="{{ user.ZipCode }}">
+                            </div>
+                            <div class="form-group">
+                                <input  data-validation="number" data-validation-error-msg="Lütfen gerçerli telefon giriniz" type="text" name="phone_number" id="phone_number" tabindex="9" class="form-control" placeholder="Telefon Numarası" value="{{ user.PhoneNumber }}">
+                            </div>
+                            <div class="form-group">
+                                <input  data-validation="number" data-validation-allowing="float" data-validation-error-msg="Lütfen gerçerli para pirimi giriniz" type="text" name="balance" id="balance" tabindex="9" class="form-control" placeholder="Bakiye" value="{{ user.Balance }}">
+                            </div>
+
+                            <div class="form-group">
+                                Ödeme Tipi:
+                                <select class="form-control" name="payment_type">
+                                    <option value="paypal">Paypal</option>
+                                    <option value="bank">Banka</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <input  data-validation="required" data-validation-error-msg="Lütfen gerçerli ödeme biligisi giriniz" type="payment_info" name="payment_info" id="payment_info" tabindex="12" class="form-control" placeholder="Ödeme Bilgisi" value="{{ user.PaymentInfo }}">
+                            </div>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-sm-6 col-sm-offset-3">
+                                        <input type="submit" name="update-submit" id="register-submit" tabindex="4" class="form-control btn btn-primary" value="Düzenle">
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block javascript %}
+    <script>
+        var Forms={
+            Add:{
+                Self:$('#update-form'),
+                Field:{
+                    UserID          :$('#update-form input[name ="userId"]'),
+                    Email           :$('#update-form input[name ="email"]'),
+                    Password        :$('#update-form input[name ="password"]'),
+                    UserType        :$('#update-form input[name ="user_type"]'),
+                    Name            :$('#update-form input[name ="name"]'),
+                    SurName         :$('#update-form input[name ="surname"]'),
+                    Address1        :$('#update-form input[name ="address1"]'),
+                    Address2        :$('#update-form input[name ="address1"]'),
+                    City            :$('#update-form input[name ="city"]'),
+                    Country         :$('#update-form input[name ="country"]'),
+                    ZipCode         :$('#update-form input[name ="zip_code"]'),
+                    PhoneNumber     :$('#update-form input[name ="phone_number"]'),
+                    AccountType     :$('#update-form select[name ="account_type"]'),
+                    PaymentType     :$('#update-form select[name ="payment_type"]'),
+                    PaymentInfo     :$('#update-form input[name ="payment_info"]'),
+                    Balance         :$('#update-form input[name ="balance"]')
+
+                } ,
+                Values :function () {
+                    return{
+                        UserId          :Forms.Add.Field.UserID.val(),
+                        Email           :Forms.Add.Field.Email.val(),
+                        Password        :Forms.Add.Field.Password.val(),
+                        UserType        :Forms.Add.Field.UserType.val(),
+                        Name            :Forms.Add.Field.Name.val(),
+                        SurName         :Forms.Add.Field.SurName.val(),
+                        Address1        :Forms.Add.Field.Address1.val(),
+                        Address2        :Forms.Add.Field.Address2.val(),
+                        City            :Forms.Add.Field.City.val(),
+                        Country         :Forms.Add.Field.Country.val(),
+                        ZipCode         :Forms.Add.Field.ZipCode.val(),
+                        PhoneNumber     :Forms.Add.Field.PhoneNumber.val(),
+                        AccountType     :Forms.Add.Field.AccountType.val(),
+                        PaymentType     :Forms.Add.Field.PaymentType.val(),
+                        PaymentInfo     :Forms.Add.Field.PaymentInfo.val(),
+                        Balance         :Forms.Add.Field.Balance.val()
+                    }
+                },
+                Bind:function () {
+                    Forms.Add.Self.on('submit',function (e) {
+                        e.preventDefault();
+                        $.post('{{ url('admin_user_ajax_update') }}',Forms.Add.Values(),function (result) {
+                            if(result.success)
+                            {
+                                setTimeout(function () {
+                                    $('.alert-success').slideUp()
+                                },2000)
+                                $('.alert-success').slideDown()
+                                $( "body" ).scrollTop(0);
+
+                            }else {
+                                setTimeout(function () {
+                                    $('.register-alert').slideUp()
+                                },1000)
+                                $('.register-alert').slideDown();
+                                $( "body" ).scrollTop(0);
+                            }
+                        })
+                    })
+                }
+            },
+            Bind:function () {
+                Forms.Add.Bind();
+            }
+        }
+
+        $(document).ready(function () {
+            $.validate({
+                validateOnBlur : false,
+                errorMessagePosition : 'top',
+                scrollToTopOnError : false
+            });
+            Forms.Bind();
+
+        });
+
+
+    </script>
+{% endblock %}

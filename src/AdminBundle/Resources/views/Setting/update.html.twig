@@ -1,0 +1,159 @@
+
+{% extends 'AdminBundle:Default:base.html.twig' %}
+{% block content %}
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Genel Ayarlar</h1>
+            </div>
+
+            <!-- /.col-lg-12 -->
+        </div>
+        <div class="alert alert-success" style="display: none">
+            <strong>Güncellendi</strong>
+        </div>
+
+        <div class="alert alert-danger" style="display: none"><strong>Hata Oluştu</strong></div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <form id="setting-form"  method="post" role="form">
+                    <label>Başlık:</label>
+                    <div class="form-group">
+                        <input  data-validation="required"  data-validation-error-msg="Lütfen başlık giriniz" type="text" name="title" id="title" tabindex="1" class="form-control" value="{{ setting.Title }}">
+                    </div>
+                    <input type="hidden" name="id" id="id" tabindex="1" class="form-control" value="{{ setting.ID }}">
+                    <label>Banka Bilgisi:</label>
+                    <div class="form-group">
+                     <textarea id="payment_info" name="payment_info" class="mceEditor">
+                         {{ setting.PaymentInfo }}
+                     </textarea>
+                    </div>
+                    <label>Header Ppc:</label>
+                    <div class="form-group">
+                        <input data-validation="number" data-validation-allowing="float"   data-validation-error-msg="Lütfen geçerli alan sayı giriniz" type="text" name="header_ppc" id="header_ppc" tabindex="1" class="form-control" placeholder="Header Ppc" value="{{ setting.HeaderPpc }}">
+                    </div>
+                    <label>Interstitial Ppc:</label>
+                    <div class="form-group">
+                        <input data-validation="number" data-validation-allowing="float"   data-validation-error-msg="Lütfen geçerli alan sayı giriniz" type="text" name="interstitial_ppc" id="interstitial_ppc" tabindex="1" class="form-control" placeholder="Interstitial Ppc" value="{{ setting.InterstitialPpc }}">
+                    </div>
+                    <label>Banka:</label>
+                    <span>Bankalar yazarken lütfen araya virgül koymayı unutmayın</span>
+                    <div class="form-group">
+                        <input data-validation="required" data-validation-error-msg="Lütfen geçerli banka giriniz" type="text" name="payment_banks" id="payment_banks" tabindex="1" class="form-control" placeholder="Banka" value="{{ setting.PaymentBanks }}">
+                    </div>
+                    <label>Minimum Ödeme:</label>
+                    <div class="form-group">
+                        <input data-validation="number" data-validation-error-msg="Lütfen geçerli ödene giriniz" type="text" name="minimum_payment" id="minimum_payment" tabindex="1" class="form-control" placeholder="Minimum Ödeme" value="{{ setting.MinimumPayment }}">
+                    </div>
+                    <label>Header Ppc Yayıncı:</label>
+                    <div class="form-group">
+                        <input data-validation="number" data-validation-allowing="float"   data-validation-error-msg="Lütfen geçerli alan sayı giriniz" type="text" name="header_ppc_publisher" id="header_ppc_publisher" tabindex="1" class="form-control" placeholder="Header Ppc Yayıncı" value="{{ setting.HeaderPpcPublisher }}">
+                    </div>
+                    <label>Interstitial Ppc Yayincı:</label>
+                    <div class="form-group">
+                        <input data-validation="number" data-validation-allowing="float"   data-validation-error-msg="Lütfen geçerli alan sayı giriniz" type="text" name="interstitial_ppc_publisher" id="interstitial_ppc_publisher" tabindex="1" class="form-control" placeholder="Interstitial Ppc Yayincı" value="{{ setting.InterstitialPpcPublisher }}">
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-3 col-sm-offset-4">
+                                <input type="submit" name="setting-submit" id="setting-submit" tabindex="4" class="btn btn-lg btn-success btn-block" value="Ayarları Güncelle">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block javascript %}
+    <script>
+        var Forms={
+            Add:{
+                Self:$('#setting-form'),
+                Field:{
+                    ID                              :$('#setting-form input[name ="id"]'),
+                    PaymentInfo                     :$('#setting-form input[name ="payment_info"]'),
+                    Title                           :$('#setting-form input[name ="title"]'),
+                    HeaderPpc                       :$('#setting-form input[name ="header_ppc"]'),
+                    InterstitialPpc                 :$('#setting-form input[name ="interstitial_ppc"]'),
+                    PaymentBanks                    :$('#setting-form input[name ="payment_banks"]'),
+                    MinimumPayment                  :$('#setting-form input[name ="minimum_payment"]'),
+                    HeaderPpcPublisher              :$('#setting-form input[name ="header_ppc_publisher"]'),
+                    InterstitialPpcPublisher        :$('#setting-form input[name ="interstitial_ppc_publisher"]')
+                } ,
+                Values :function () {
+                    return{
+                        ID                              :Forms.Add.Field.ID.val(),
+                        PaymentInfo                     :tinymce.get('payment_info').getContent(),
+                        Title                           :Forms.Add.Field.Title.val(),
+                        HeaderPpc                       :Forms.Add.Field.HeaderPpc.val(),
+                        InterstitialPpc                 :Forms.Add.Field.InterstitialPpc.val(),
+                        PaymentBanks                    :Forms.Add.Field.PaymentBanks.val(),
+                        MinimumPayment                  :Forms.Add.Field.MinimumPayment.val(),
+                        HeaderPpcPublisher              :Forms.Add.Field.HeaderPpcPublisher.val(),
+                        InterstitialPpcPublisher        :Forms.Add.Field.InterstitialPpcPublisher.val()
+                    }
+                },
+                Bind:function () {
+                    Forms.Add.Self.on('submit',function (e) {
+                        e.preventDefault();
+                        $.post('{{ url('admin_ajax_setting_update') }}',Forms.Add.Values(),function (result) {
+                            if(result.success)
+                            {
+                                setTimeout(function () {
+                                    $('.alert-success').slideUp()
+                                },2000)
+                                $('.alert-success').slideDown()
+                                $( "body" ).scrollTop(0);
+
+                            }else {
+                                setTimeout(function () {
+                                    $('.register-alert').slideUp()
+                                },1000)
+                                $('.register-alert').slideDown();
+                                $( "body" ).scrollTop(0);
+                            }
+                        })
+                    })
+                }
+            },
+            Bind:function () {
+                Forms.Add.Bind();
+            }
+        }
+
+        $(document).ready(function () {
+            $.validate({
+                validateOnBlur : false,
+                errorMessagePosition : 'top',
+                scrollToTopOnError : false
+            });
+            Forms.Bind();
+            var contentDesc;
+            tinymce.init({
+                selector: 'textarea',
+                mode : "specific_textareas",
+                editor_selector : "mceEditor",
+                height: 400,
+                plugins: [
+                    'advlist autolink lists link image charmap print preview anchor',
+                    'searchreplace visualblocks code fullscreen',
+                    'insertdatetime media table contextmenu paste code'
+                ],
+                setup: function(editor) {
+                    editor.on('change', function (e) {
+                        contentDesc=tinymce.get('payment_info').getContent();
+                    });
+                },
+                toolbar: 'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | link image',
+
+            });
+
+        });
+
+
+    </script>
+{% endblock %}

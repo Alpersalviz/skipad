@@ -27,7 +27,7 @@ services:
 
       user.payment_controller:
           class: UserBundle\Controller\PaymentController
-          arguments: ["@app.user_repository","@app.payment_repository"]
+          arguments: ["@app.user_repository","@app.payment_repository","@app.settings_repository"]
           parent: "user.base_controller"
 
 

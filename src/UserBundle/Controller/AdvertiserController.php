@@ -123,6 +123,7 @@ class AdvertiserController extends BaseController
             ));
         $setting = $this->_settingsRepository->GetSetting();
 
+
         $user = $this->_userRepository->GetUserById($id);
         if($user->Balance < (int)$data["first_price"]){
             return new JsonResponse(array(
@@ -140,6 +141,8 @@ class AdvertiserController extends BaseController
         $ad->UserId = $this->GetSession()->get('id');
         $ad->CreatedDate = date("Y-m-d H:i:s");
         $ad->CreatedIp = $request->getClientIp();
+        $ad->Publish = 1;
+        
         if($data["ad_type"] == "header_banner"){
             $ad->Ppc = $setting->HeaderPpc;
         }else if($data["ad_type"] == "interstitial"){

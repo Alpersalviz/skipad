@@ -27,7 +27,8 @@ class AdvertiserRepository extends BaseRepository
         try{
 
             $query="SELECT *
-                    From ads";
+                    From ads
+                    ORDER By created_date";
             $result = $this->getConnection()->prepare($query);
 
             $result->execute();
@@ -49,6 +50,40 @@ class AdvertiserRepository extends BaseRepository
             return false;
         }
     }
+
+
+    public function GetAdsByType($type){
+        try{
+
+            $query="SELECT ID,url
+                    From ads
+                    WHERE ad_type = :ad_type AND current_price > 0 AND publish = 1
+                    ORDER BY RAND() 
+                    LIMIT 1";
+
+            $result = $this->getConnection()->prepare($query);
+
+            $result->execute(array(
+                ':ad_type' => $type
+            ));
+
+            if( $result === false)
+                return false;
+
+            $result = $result->fetch();
+            if($result === false){
+                return array(
+                    'ID' => 0,
+                    'url' => '/'
+                );
+            }
+            return $result;
+
+        }catch (Exception $e){
+            return false;
+        }
+    }
+
     public function GetAdsById($id){
         try{
 
@@ -108,8 +143,8 @@ class AdvertiserRepository extends BaseRepository
         try{
             $this->getConnection()->beginTransaction();
             $query="INSERT INTO 
-                    ads (title, url, ad_type, impression, user_id, created_date, created_ip, ppc, first_price, current_price)
-                  VALUES (:title, :url, :ad_type, :impression, :user_id, :created_date, :created_ip, :ppc, :first_price, :current_price)";
+                    ads (title, url, ad_type, impression, user_id, created_date, created_ip, ppc, first_price, current_price, publish)
+                  VALUES (:title, :url, :ad_type, :impression, :user_id, :created_date, :created_ip, :ppc, :first_price, :current_price, :publish)";
 
             $this->_userRepository->AddBalance($ads->UserId,$ads->FirstPrice * -1 );
 
@@ -124,7 +159,8 @@ class AdvertiserRepository extends BaseRepository
                 ':created_ip'       => $ads->CreatedIp,
                 ':ppc'              => $ads->Ppc,
                 ':first_price'      => $ads->FirstPrice,
-                ':current_price'    => $ads->CurrentPrice
+                ':current_price'    => $ads->CurrentPrice,
+                ':publish'          => $ads->Publish
             ));
 
 
@@ -174,24 +210,75 @@ class AdvertiserRepository extends BaseRepository
         }
     }
 
-    public function CancelAdd($id){
+    public function UpdateAddByAdmin($id ,$url ,$title,$ppc){
 
         try{
 
             $query="UPDATE ads 
-                    SET publish = 0
+                    SET title = :title , url = :url , ppc = :ppc
                     WHERE ID = :id";
 
 
             $result = $this->getConnection()->prepare($query);
             $result->execute(array(
-                ':id'               =>$id
+                ':id'               =>$id,
+                ':url'              =>$url,
+                ':title'            =>$title,
+                ':ppc'              =>$ppc
             ));
 
             if ($result === false)
                 return false;
 
             return true;
+
+
+        }catch (Exception $e){
+            return false;
+        }
+    }
+
+    public function CancelAdd($id,$publish = 0){
+
+        try{
+
+            $query="UPDATE ads 
+                    SET publish = :publish
+                    WHERE ID = :id";
+
+
+            $result = $this->getConnection()->prepare($query);
+            $result->execute(array(
+                ':id'               =>$id,
+                ':publish'          =>$publish,
+            ));
+
+            if ($result === false)
+                return false;
+
+            return true;
+
+
+        }catch (Exception $e){
+            return false;
+        }
+    }
+
+    public function UpdateImpression($id){
+
+        try{
+
+            $query="UPDATE ads 
+                    SET impression = impression +1 , current_price = current_price - ppc
+                    WHERE ID = :id";
+
+
+            $result = $this->getConnection()->prepare($query);
+            $result->execute(array(
+                ':id'               =>$id,
+            ));
+
+            return $result;
 
 
         }catch (Exception $e){

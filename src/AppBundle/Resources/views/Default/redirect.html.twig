@@ -1,11 +1,96 @@
+{% block stylesheet %}
+    <style>
+        *{
+            padding: 0px;
+            margin: 0px;
+            border:none;
+        }
+        .header{
+            width:100%;
+            height: 75px;
+            background: #1b6d85;
+        }
+        .logo{
+            background: red;
+            width: 50px;
+            height: 100%;
+            float:left;
+        }
+        .head-ads{
+            height: 100%;
+            float: left;
+            margin-left: 20%;
+            overflow: hidden;
+            width:477px;
+        }
+        #wait,#captchaform{
+            float: right;
+            color:#fff;
+        }
+        #wait{
+            line-height: 75px;
+            text-align: center;
+            width:150px;
+        }
+        .inter-ads{
+            width: 100%;
+            height: calc(100% - 50px);
+            overflow: hidden;
+        }
+        .g-recaptcha{
+            height: 60px;
+        }
+        .adbar{
+            width: calc(100% - 10px);
+            height: 20px;
+            background-color: #8a6d3b;
+            color: #fff;
+            padding-left: 10px;
+        }
+    </style>
+{% endblock %}
+{% block content %}
 
-Yönlendiriliyor
+ <div class="header">
+     <img class="logo" src="" />
+     <iframe src="{{ headerAd["url"]  }}" class="head-ads" scrolling="no"></iframe>
+     <div style="display:none" id="captchaform">
+         <form action="{{ url('homepage_url_confirm_redirect') }}" method="post" id="redirect-form">
+             <input type="hidden" name="headerId" value="{{ headerAd["ID"] }}" />
+             <input type="hidden" name="interId" value="{{ interAd["ID"] }}" />
+             <input type="hidden" name="url" value="{{ url.Url }}" />
+             <input type="hidden" name="urlId" value="{{ url.ID }}" />
+             <div class="g-recaptcha" data-sitekey="6LcLXBQUAAAAAKHhPMJjk-FfeU_DQ_-n51MXENv8" data-callback="clickRecaptcha"></div>
+         </form>
+     </div>
+     <div id="wait">
+         Lütfen bekleyiniz.. <span id="time-count">5</span>
+     </div>
+ </div>
+<div style="clear: both"></div>
+<div class="adbar">
+    ccb.as - a modern URL shortener Kısalt - Kazan
+</div>
+<div style="clear: both"></div>
+<iframe src="{{ interAd["url"] }}" class="inter-ads" scrolling="no"></iframe>
 
 
-<script type="text/javascript">
+{% endblock %}
 
-    setTimeout(function () {
-        window.location.href ="{{ url.RedirectUrl }}";
 
-    },5000)
-</script>
+    {% block javascript %}
+        <script src='https://www.google.com/recaptcha/api.js'></script>
+        <script type="text/javascript">
+            var clickRecaptcha = function() {
+                document.getElementById("redirect-form").submit();
+            };
+            setInterval(function(){
+                if(document.getElementById("time-count").innerHTML>0){
+                    document.getElementById("time-count").innerHTML = document.getElementById("time-count").innerHTML-1;
+                }else{
+                    document.getElementById("captchaform").style= "display:block";
+                    document.getElementById("wait").style= "display:none";
+                }
+            },1000);
+        </script>
+    {% endblock %}
