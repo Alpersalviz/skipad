@@ -23,7 +23,8 @@
                             <th>Link</th>
                             <th>Yönlendirilen Link</th>
                             <th>Kazanılan Para</th>
-                            <th>Gösterim</th>
+                            <th>Çoğul Gösterim</th>
+                            <th>Tekil Gösterim</th>
                             <th>Oluşturulma Tarihi</th>
                             <th></th>
                         </tr>
@@ -37,6 +38,7 @@
                                     <td><span>{{ url.RedirectUrl }}</span></td>
                                     <td>{{ url.Price }}</td>
                                     <td>{{ url.Impression }}</td>
+                                    <td>{{ url.Visitor }}</td>
                                     <td>{{ url.CreatedDate }}</td>
                                     <td> <button type="button" onclick="location.href='{{ url("user_url_update",{ 'id' :url.ID }) }}';"  class="edit btn btn-primary glyphicon glyphicon-pencil"></button> <button type="button" data-id="{{ url.ID }}" class="link-remove edit btn btn-primary glyphicon glyphicon-remove"></button></td>
                                 </tr>

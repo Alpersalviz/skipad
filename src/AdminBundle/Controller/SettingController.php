@@ -54,10 +54,13 @@ class SettingController extends BaseController
         $setting->Title = $data["Title"];
         $setting->HeaderPpc = $data["HeaderPpc"];
         $setting->InterstitialPpc = $data["InterstitialPpc"];
+        $setting->PopupPpc = $data["PopupPpc"];
         $setting->PaymentBanks = $data["PaymentBanks"];
         $setting->MinimumPayment = $data["MinimumPayment"];
         $setting->HeaderPpcPublisher = $data["HeaderPpcPublisher"];
         $setting->InterstitialPpcPublisher = $data["InterstitialPpcPublisher"];
+        $setting->PopupPpcPublisher = $data["PopupPpcPublisher"];
+
 
         $updateSetting = $this->_settingRepository->UpdateSetting($setting);
 

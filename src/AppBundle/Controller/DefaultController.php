@@ -5,7 +5,9 @@ namespace AppBundle\Controller;
 use AppBundle\Data\Model\AdIp;
 use AppBundle\Data\Repository\AdvertiserRepository;
 use AppBundle\Data\Repository\AdIpRepository;
+use AppBundle\Data\Repository\PpcCountryRepository;
 use AppBundle\Data\Repository\SettingsRepository;
+use AppBundle\Helper\Geoiploc;
 use AppBundle\Data\Repository\UrlRepository;
 use AppBundle\Data\Repository\UserRepository;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -29,13 +31,16 @@ class DefaultController extends BaseController
 
     private $_settingRepository;
 
-    public function __construct(UserRepository $userRepository, UrlRepository $urlRepository , AdvertiserRepository $advertiserRepository , AdIpRepository $adIpRepository ,SettingsRepository $settingsRepository)
+    private $_ppcCountryRepository;
+
+    public function __construct(UserRepository $userRepository, UrlRepository $urlRepository , AdvertiserRepository $advertiserRepository , AdIpRepository $adIpRepository ,SettingsRepository $settingsRepository , PpcCountryRepository $ppcCountryRepository)
     {
         $this->_userRepository = $userRepository;
         $this->_urlRepository  = $urlRepository;
         $this->_advertiserRepository = $advertiserRepository;
         $this->_adIpRepository = $adIpRepository;
         $this->_settingRepository = $settingsRepository;
+        $this->_ppcCountryRepository = $ppcCountryRepository;
     }
 
     /**
@@ -56,12 +61,14 @@ class DefaultController extends BaseController
     {
         $interstitial = $this->_advertiserRepository->GetAdsByType('interstitial');
         $header = $this->_advertiserRepository->GetAdsByType('header_banner');
+        $popup = $this->_advertiserRepository->GetAdsByType('popup');
         $urlObj = $this->_urlRepository->GetByRedirectUrl($url);
 
         return array(
-            'url' => $urlObj,
-            'interAd' => $interstitial,
-            'headerAd' => $header
+            'url'       => $urlObj,
+            'interAd'   => $interstitial,
+            'headerAd'  => $header,
+            'popupAd'   => $popup
 
         );
     }
@@ -76,8 +83,14 @@ class DefaultController extends BaseController
         $url = $data["url"];
         $urlId = $data["urlId"];
         $ip = $request->getClientIp();
+        $geoiploc = new Geoiploc();
+        $country = $geoiploc->getCountryFromIP('78.178.235.139');
+
+        $is3g = $geoiploc->is3g($ip);
+
         $headerId = $data["headerId"];
         $interId = $data["interId"];
+        $popupId = $data["popupId"];
         $setting = $this->_settingRepository->GetSetting();
 
 
@@ -98,7 +111,11 @@ class DefaultController extends BaseController
         //captcha success
         $headerBannerIpcount = $this->_adIpRepository->GetAdCountByIp($ip,$urlId,'header_banner');
         $interstitialIpcount = $this->_adIpRepository->GetAdCountByIp($ip,$urlId,'interstitial');
-      
+        $popupIpcount = $this->_adIpRepository->GetAdCountByIp($ip,$urlId,'popup');
+
+        $ppcCountry = $this->_ppcCountryRepository->GetCountryPpc($country,$is3g);
+        var_dump($ppcCountry);exit();
+
         $adIp = new AdIp();
         $adIp->UrlId = $urlId;
         $adIp->Ip = $ip;
@@ -109,25 +126,46 @@ class DefaultController extends BaseController
             $adIp->AdId = $headerId;
             $adIp->AdType = 'header_banner';
             $this->_adIpRepository->AddAdIp($adIp);
-            $balance +=$setting->HeaderPpcPublisher;
-            $this->_advertiserRepository->UpdateImpression($headerId);
+            if(!isset($ppcCountry["header_banner"])){
+                $balance +=$setting->HeaderPpcPublisher;
+            }else{
+                $balance +=$ppcCountry["header_banner"]->PpcPublisher;
+            }
+            $this->_advertiserRepository->UpdateImpression($headerId,(!isset($ppcCountry["header_banner"]) ? 0 : $ppcCountry["header_banner"]->Ppc ));
         }
 
         if($interstitialIpcount == 0 && $interId !=0 ) {
             $adIp->AdId = $interId;
             $adIp->AdType = 'interstitial';
             $this->_adIpRepository->AddAdIp($adIp);
-            $balance +=$setting->InterstitialPpcPublisher;
-            $this->_advertiserRepository->UpdateImpression($interId);
+            if(!isset($ppcCountry["interstitial"])){
+                $balance +=$setting->InterstitialPpcPublisher;
+            }else{
+                $balance +=$ppcCountry["interstitial"]->PpcPublisher;
+            }
+            $this->_advertiserRepository->UpdateImpression($interId,(!isset($ppcCountry["interstitial"]) ? 0 : $ppcCountry["interstitial"]->Ppc ));
         }
-
+        if($popupIpcount == 0 && $popupId !=0 ) {
+            $adIp->AdId = $popupId;
+            $adIp->AdType = 'popup';
+            $this->_adIpRepository->AddAdIp($adIp); 
+            if(!isset($ppcCountry["popup"])){
+                $balance +=$setting->PopupPpcPublisher;
+            }else{
+                $balance +=$ppcCountry["popup"]->PpcPublisher;
+            }
+            $this->_advertiserRepository->UpdateImpression($popupId , (!isset($ppcCountry["popup"]) ? 0 : $ppcCountry["popup"]->Ppc ));
+        }
         $urlObj = $this->_urlRepository->GetUrlById($urlId);
 
         //publishera ekleyeceğimiz para
-        if($balance !=0) {
-            $this->_urlRepository->UpdateImpression($urlId,$balance);
+        if($balance != 0) {
+            $this->_urlRepository->UpdateVisitor($urlId,$balance);
 
             $this->_userRepository->AddBalance($urlObj->UserId,$balance);
+        }else{
+            $this->_urlRepository->UpdateImpression($urlId);
+
         }
 
 

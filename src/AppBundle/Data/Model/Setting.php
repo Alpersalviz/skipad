@@ -15,22 +15,26 @@ class Setting
     public $Title;
     public $HeaderPpc;
     public $InterstitialPpc;
+    public $PopupPpc;
     public $PaymentInfo;
     public $PaymentBanks;
     public $MinimumPayment;
     public $HeaderPpcPublisher;
     public $InterstitialPpcPublisher;
+    public $PopupPpcPublisher;
 
     public function MapFrom($data){
         $this->ID                       = $data["ID"];
         $this->Title                    = $data["title"];
         $this->HeaderPpc                = (double)$data["header_ppc"];
         $this->InterstitialPpc          = (double)$data["interstitial_ppc"];
+        $this->PopupPpc                 = (double)$data["popup_ppc"];
         $this->PaymentInfo              = $data["payment_info"];
         $this->PaymentBanks             = $data["payment_banks"];
         $this->MinimumPayment           = $data["minimum_payment"];
         $this->HeaderPpcPublisher       = $data["header_ppc_publisher"];
         $this->InterstitialPpcPublisher = $data["interstitial_ppc_publisher"];
+        $this->PopupPpcPublisher        = $data["popup_ppc_publisher"];
 
         return $this;
     }

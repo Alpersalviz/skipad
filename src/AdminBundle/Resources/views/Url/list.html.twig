@@ -22,7 +22,8 @@
                             <th>Link</th>
                             <th>Yönlendirilen Link</th>
                             <th>Kazanılan Para</th>
-                            <th>Gösterim</th>
+                            <th>Çoğul Gösterim</th>
+                            <th>Tekil Gösterim</th>
                             <th>Oluşturulma Tarihi</th>
                             <th></th>
                         </tr>
@@ -38,6 +39,7 @@
                                 <td><span>{{ url.RedirectUrl }}</span></td>
                                 <td>{{ url.Price }}</td>
                                 <td>{{ url.Impression }}</td>
+                                <td>{{ url.Visitor }}</td>
                                 <td>{{ url.CreatedDate }}</td>
                                 <td>
                                     <button type="button" style="display: none"

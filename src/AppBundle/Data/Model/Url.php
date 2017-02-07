@@ -18,6 +18,7 @@ class Url
     public $Impression;
     public $UserId;
     public $CreatedDate;
+    public $Visitor;
 
     public function MapFrom($data){
         $this->ID = $data["ID"];
@@ -27,6 +28,7 @@ class Url
         $this->Impression = $data["impression"];
         $this->UserId = $data["user_id"];
         $this->CreatedDate = $data["created_date"];
+        $this->Visitor  = $data["visitor"];
 
         return $this;
     }

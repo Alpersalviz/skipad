@@ -264,19 +264,21 @@ class AdvertiserRepository extends BaseRepository
         }
     }
 
-    public function UpdateImpression($id){
+    public function UpdateImpression($id,$ppc = 0){
 
         try{
 
             $query="UPDATE ads 
-                    SET impression = impression +1 , current_price = current_price - ppc
+                    SET impression = impression +1 , current_price = current_price - ".($ppc != 0 ? ':' : '')."ppc
                     WHERE ID = :id";
-
-
-            $result = $this->getConnection()->prepare($query);
-            $result->execute(array(
+            $parameters = array(
                 ':id'               =>$id,
-            ));
+            );
+            if($ppc != 0){
+                $parameters[':ppc'] = $ppc;
+            }
+            $result = $this->getConnection()->prepare($query);
+            $result->execute($parameters);
 
             return $result;
 

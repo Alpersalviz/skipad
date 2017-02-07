@@ -58,6 +58,7 @@
          <form action="{{ url('homepage_url_confirm_redirect') }}" method="post" id="redirect-form">
              <input type="hidden" name="headerId" value="{{ headerAd["ID"] }}" />
              <input type="hidden" name="interId" value="{{ interAd["ID"] }}" />
+             <input type="hidden" name="popupId" value="{{ popupAd["ID"] }}" />
              <input type="hidden" name="url" value="{{ url.Url }}" />
              <input type="hidden" name="urlId" value="{{ url.ID }}" />
              <div class="g-recaptcha" data-sitekey="6LcLXBQUAAAAAKHhPMJjk-FfeU_DQ_-n51MXENv8" data-callback="clickRecaptcha"></div>
@@ -83,13 +84,25 @@
         <script type="text/javascript">
             var clickRecaptcha = function() {
                 document.getElementById("redirect-form").submit();
+                window.open("{{ popupAd["url"] }}")
             };
+            var focused = true;
+
+            window.onfocus = function() {
+                focused = true;
+            };
+            window.onblur = function() {
+                focused = false;
+            };
+
             setInterval(function(){
+                if(focused){
                 if(document.getElementById("time-count").innerHTML>0){
                     document.getElementById("time-count").innerHTML = document.getElementById("time-count").innerHTML-1;
                 }else{
                     document.getElementById("captchaform").style= "display:block";
                     document.getElementById("wait").style= "display:none";
+                }
                 }
             },1000);
         </script>

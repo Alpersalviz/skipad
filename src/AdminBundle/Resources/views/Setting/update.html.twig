@@ -37,6 +37,10 @@
                     <div class="form-group">
                         <input data-validation="number" data-validation-allowing="float"   data-validation-error-msg="Lütfen geçerli alan sayı giriniz" type="text" name="interstitial_ppc" id="interstitial_ppc" tabindex="1" class="form-control" placeholder="Interstitial Ppc" value="{{ setting.InterstitialPpc }}">
                     </div>
+                    <label>Popup Ppc:</label>
+                    <div class="form-group">
+                        <input data-validation="number" data-validation-allowing="float"   data-validation-error-msg="Lütfen geçerli alan sayı giriniz" type="text" name="popup_ppc" id="popup_ppc" tabindex="1" class="form-control" placeholder="Popup Ppc" value="{{ setting.PopupPpc }}">
+                    </div>
                     <label>Banka:</label>
                     <span>Bankalar yazarken lütfen araya virgül koymayı unutmayın</span>
                     <div class="form-group">
@@ -53,6 +57,10 @@
                     <label>Interstitial Ppc Yayincı:</label>
                     <div class="form-group">
                         <input data-validation="number" data-validation-allowing="float"   data-validation-error-msg="Lütfen geçerli alan sayı giriniz" type="text" name="interstitial_ppc_publisher" id="interstitial_ppc_publisher" tabindex="1" class="form-control" placeholder="Interstitial Ppc Yayincı" value="{{ setting.InterstitialPpcPublisher }}">
+                    </div>
+                    <label>Popup Ppc Yayincı:</label>
+                    <div class="form-group">
+                        <input data-validation="number" data-validation-allowing="float"   data-validation-error-msg="Lütfen geçerli alan sayı giriniz" type="text" name="popup_ppc_publisher" id="popup_ppc_publisher" tabindex="1" class="form-control" placeholder="Popup Ppc Yayincı" value="{{ setting.PopupPpcPublisher }}">
                     </div>
                     <div class="form-group">
                         <div class="row">
@@ -79,10 +87,12 @@
                     Title                           :$('#setting-form input[name ="title"]'),
                     HeaderPpc                       :$('#setting-form input[name ="header_ppc"]'),
                     InterstitialPpc                 :$('#setting-form input[name ="interstitial_ppc"]'),
+                    PopupPpc                        :$('#setting-form input[name ="popup_ppc"]'),
                     PaymentBanks                    :$('#setting-form input[name ="payment_banks"]'),
                     MinimumPayment                  :$('#setting-form input[name ="minimum_payment"]'),
                     HeaderPpcPublisher              :$('#setting-form input[name ="header_ppc_publisher"]'),
-                    InterstitialPpcPublisher        :$('#setting-form input[name ="interstitial_ppc_publisher"]')
+                    InterstitialPpcPublisher        :$('#setting-form input[name ="interstitial_ppc_publisher"]'),
+                    PopupPpcPublisher               :$('#setting-form input[name ="popup_ppc_publisher"]')
                 } ,
                 Values :function () {
                     return{
@@ -91,10 +101,12 @@
                         Title                           :Forms.Add.Field.Title.val(),
                         HeaderPpc                       :Forms.Add.Field.HeaderPpc.val(),
                         InterstitialPpc                 :Forms.Add.Field.InterstitialPpc.val(),
+                        PopupPpc                        :Forms.Add.Field.PopupPpc.val(),
                         PaymentBanks                    :Forms.Add.Field.PaymentBanks.val(),
                         MinimumPayment                  :Forms.Add.Field.MinimumPayment.val(),
                         HeaderPpcPublisher              :Forms.Add.Field.HeaderPpcPublisher.val(),
-                        InterstitialPpcPublisher        :Forms.Add.Field.InterstitialPpcPublisher.val()
+                        InterstitialPpcPublisher        :Forms.Add.Field.InterstitialPpcPublisher.val(),
+                        PopupPpcPublisher               :Forms.Add.Field.PopupPpcPublisher.val()
                     }
                 },
                 Bind:function () {

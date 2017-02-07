@@ -50,10 +50,12 @@ class SettingsRepository extends BaseRepository
                       title = :title,
                       header_ppc = :header_ppc,
                       interstitial_ppc = :interstitial_ppc,
+                      popup_ppc = :popup_ppc,
                       payment_banks = :payment_banks,
                       minimum_payment = :minimum_payment,
                       header_ppc_publisher = :header_ppc_publisher,
-                      interstitial_ppc_publisher = :interstitial_ppc_publisher
+                      interstitial_ppc_publisher = :interstitial_ppc_publisher,
+                      popup_ppc_publisher = :popup_ppc_publisher
                      WHERE 1";
 
             $result = $this->getConnection()->prepare($query);
@@ -62,10 +64,12 @@ class SettingsRepository extends BaseRepository
                 ':title'                        => $setting->Title,
                 ':header_ppc'                   => $setting->HeaderPpc,
                 ':interstitial_ppc'             => $setting->InterstitialPpc,
+                ':popup_ppc'                    => $setting->PopupPpc,
                 ':payment_banks'                => $setting->PaymentBanks,
                 ':minimum_payment'              => $setting->MinimumPayment,
                 ':header_ppc_publisher'         => $setting->HeaderPpcPublisher,
                 ':interstitial_ppc_publisher'   => $setting->InterstitialPpcPublisher,
+                ':popup_ppc_publisher'          => $setting->PopupPpcPublisher
             ));
 
             return $result;

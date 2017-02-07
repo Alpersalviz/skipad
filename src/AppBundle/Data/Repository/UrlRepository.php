@@ -222,12 +222,12 @@ class UrlRepository extends BaseRepository
         }
     }
 
-    public function UpdateImpression($urlId,$price)
+    public function UpdateVisitor($urlId,$price)
     {
         try{
 
             $query="UPDATE urls 
-                    SET impression = impression +1 , price = price + :price
+                    SET impression = impression +1 , visitor = visitor +1 , price = price + :price
                     WHERE ID = :id";
 
 
@@ -243,6 +243,29 @@ class UrlRepository extends BaseRepository
         }catch (Exception $e){
             return false;
         }
+    }
+
+    public function UpdateImpression($urlId)
+    {
+        try{
+
+            $query="UPDATE urls 
+                    SET impression = impression +1
+                    WHERE ID = :id";
+
+
+            $result = $this->getConnection()->prepare($query);
+            $result->execute(array(
+                ':id'     =>$urlId
+            ));
+
+            return $result;
+
+
+        }catch (Exception $e){
+            return false;
+        }
+
     }
 
 }

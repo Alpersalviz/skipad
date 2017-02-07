@@ -39,7 +39,8 @@ class AdvertiserController extends BaseController
      * @Route("/advertiser/list",name="user_advertiser_list")
      * @Template("UserBundle:Advertiser:list.html.twig")
      */
-    public function ListAdvertiserAction(){
+    public function ListAdvertiserAction()
+    {
 
         return array(
             'advertisers' => $this->_advertiserRepository->GetAdsByUserId($this->GetSession()->get("id"))
@@ -51,7 +52,8 @@ class AdvertiserController extends BaseController
      * @Route("/advertiser/update/{id}",name="user_advertiser_update")
      * @Template("UserBundle:Advertiser:update.html.twig")
      */
-    public function UpdateAdvertiserAction($id){
+    public function UpdateAdvertiserAction($id)
+    {
 
         return array(
             'advertiser' => $this->_advertiserRepository->GetAdsById($id)
@@ -64,15 +66,18 @@ class AdvertiserController extends BaseController
      * @Route("/advertiser/add",name="user_advertiser_add")
      * @Template("UserBundle:Advertiser:add.html.twig")
      */
-    public function AddAdvertiserAction(){
+    public function AddAdvertiserAction()
+    {
 
         return array();
 
     }
+
     /**
      * @Route("/advertiser/ajax/update",name="user_ajax_advertiser_update")
      */
-    public function AjaxUpdateAdvertiserAction(Request $request){
+    public function AjaxUpdateAdvertiserAction(Request $request)
+    {
 
 
         $data = $request->request->all();
@@ -80,7 +85,7 @@ class AdvertiserController extends BaseController
         $title = $data["title"];
         $url = $data["url"];
 
-        $update = $this->_advertiserRepository->UpdateAdd($id,$url,$title);
+        $update = $this->_advertiserRepository->UpdateAdd($id, $url, $title);
 
 
         return new JsonResponse(array(
@@ -89,11 +94,13 @@ class AdvertiserController extends BaseController
         ));
 
     }
+
     /**
      * @Route("/advertiser/ajax/cancel",name="user_advertiser_cancel")
      */
-    public function AjaxCancelAdvertiserAction(Request $request){
- 
+    public function AjaxCancelAdvertiserAction(Request $request)
+    {
+
         $data = $request->request->all();
         $id = $data["id"];
 
@@ -111,12 +118,13 @@ class AdvertiserController extends BaseController
     /**
      * @Route("/advertiser/ajax/add",name="user_ajax_advertiser_add")
      */
-    public function AjaxAddAdvertiserAction(Request $request){
+    public function AjaxAddAdvertiserAction(Request $request)
+    {
 
 
         $data = $request->request->all();
         $id = $this->GetSession()->get('id');
-        if((int)$data["first_price"] <= 0)
+        if ((int)$data["first_price"] <= 0)
             return new JsonResponse(array(
                 'success' => false,
                 'message' => "Bütçe 0'dan küçük olamaz"
@@ -125,7 +133,7 @@ class AdvertiserController extends BaseController
 
 
         $user = $this->_userRepository->GetUserById($id);
-        if($user->Balance < (int)$data["first_price"]){
+        if ($user->Balance < (int)$data["first_price"]) {
             return new JsonResponse(array(
                 'success' => false,
                 'message' => "Yetersiz Bakiye"
@@ -134,21 +142,24 @@ class AdvertiserController extends BaseController
 
         $ad = new Ads();
 
-        $ad->Title  = $data["title"];
-        $ad->Url    = $data["url"];
+        $ad->Title = $data["title"];
+        $ad->Url = $data["url"];
         $ad->AdType = $data["ad_type"];
         $ad->Impression = 0;
         $ad->UserId = $this->GetSession()->get('id');
         $ad->CreatedDate = date("Y-m-d H:i:s");
         $ad->CreatedIp = $request->getClientIp();
         $ad->Publish = 1;
-        
-        if($data["ad_type"] == "header_banner"){
+
+        if ($data["ad_type"] == "header_banner") {
             $ad->Ppc = $setting->HeaderPpc;
-        }else if($data["ad_type"] == "interstitial"){
+        } else if ($data["ad_type"] == "interstitial") {
             $ad->Ppc = $setting->InterstitialPpc;
 
-        }else{
+        } else if ($data["ad_type"] == "popup") {
+            $ad->Ppc = $setting->PopupPpc;
+
+        } else {
             $ad->Ppc = 0;
         }
         $ad->CurrentPrice = $data["first_price"];
