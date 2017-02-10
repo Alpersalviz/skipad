@@ -1,5 +1,5 @@
 /app/config/parameters.yml
-/.idea
+/.idea/ 
 /build/
 /phpunit.xml
 /var/*
