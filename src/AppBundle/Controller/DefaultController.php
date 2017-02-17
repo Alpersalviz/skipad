@@ -114,7 +114,7 @@ class DefaultController extends BaseController
         $popupIpcount = $this->_adIpRepository->GetAdCountByIp($ip,$urlId,'popup');
 
         $ppcCountry = $this->_ppcCountryRepository->GetCountryPpc($country,$is3g);
-        var_dump($ppcCountry);exit();
+       
 
         $adIp = new AdIp();
         $adIp->UrlId = $urlId;

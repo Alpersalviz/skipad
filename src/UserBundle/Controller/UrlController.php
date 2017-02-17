@@ -60,7 +60,15 @@ class UrlController extends BaseController
         return array();
 
     }
+    /**
+     * @Route("/url/multi/add",name="user_url_multi_add")
+     * @Template("UserBundle:Url:multi_add.html.twig")
+     */
+    public function AddUrlMultiAction(){
 
+        return array();
+
+    }
     /**
      * @Route("/ajax/url/add",name="user_ajax_url_add")
      */
@@ -81,7 +89,32 @@ class UrlController extends BaseController
         ));
 
     }
+    /**
+     * @Route("/ajax/url/multi/add",name="user_ajax_url_multi_add")
+     */
+    public function AjaxAddMultiUrlAction(Request $request){
+        $multiUrl = $request->request->get('multi_url');
+        $redirectUrls = explode("\n",$multiUrl);
+       
+        $userId = $this->GetSession()->get("id");
+        foreach ($redirectUrls as $redirectUrl){
+            $url = $this->getRandomString();
 
+
+            $randomUrlCount = $this->_urlRepository->GetRandomUrl($url);
+
+            if ($randomUrlCount->ListSize != 0)
+                $url = $this->getRandomString();
+
+            $addUrl = $this->_urlRepository->AddUrl($redirectUrl,$url,$userId);
+        }
+
+
+        return new JsonResponse(array(
+            'success' => $addUrl
+        ));
+
+    }
     /**
      * @Route("/ajax/url/delete",name="user_ajax_url_delete")
      */

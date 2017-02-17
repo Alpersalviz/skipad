@@ -33,7 +33,7 @@ class UrlController extends BaseController
     public function ListUrlAction(){
 
         return array(
-            'urls' => $this->_urlRepository->GetUrl()
+            'urls' => $this->_urlRepository->GetUrlUser()
         );
 
     }

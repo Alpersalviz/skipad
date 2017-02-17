@@ -90,6 +90,31 @@ class UrlRepository extends BaseRepository
         }
     }
 
+    public function GetUrlUser(){
+
+        try{
+            $query="SELECT ur.*,u.email
+                    FROM urls ur
+                    INNER JOIN user u
+                    ON ur.user_id = u.ID
+                    ORDER BY created_date DESC";
+            $result = $this->getConnection()->prepare($query);
+            $result->execute();
+            $results = $result->fetchAll();
+
+            $urls = array();
+
+            foreach ($results as $result){
+                $urls[] = (new Url())->MapFrom($result);
+            }
+
+            return $urls;
+
+
+        }catch (Exception $e){
+            return false;
+        }
+    }
     public function AddUrl($redirectUrl,$randomUrl,$userId){
 
     try{

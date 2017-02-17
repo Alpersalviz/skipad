@@ -20,6 +20,7 @@
                         <tr>
                             <th>#</th>
                             <th>Link</th>
+                            <th>Üye</th>
                             <th>Yönlendirilen Link</th>
                             <th>Kazanılan Para</th>
                             <th>Çoğul Gösterim</th>
@@ -34,7 +35,10 @@
                             <tr>
                                 <td></td>
                                 <td>
-                                    <a href="{{ url("homepage_url_redirect",{ 'url' :url.Url }) }}"><span>{{ url.Url }}</span></a>
+                                    <a href="{{ url("homepage_url_redirect",{ 'url' :url.Url }) }}">{{ url.Url }}</a>
+                                </td>
+                                <td>
+                                    <a href="{{ url("admin_user_update",{ 'id' :url.UserId }) }}"> {{ url.Email }}
                                 </td>
                                 <td><span>{{ url.RedirectUrl }}</span></td>
                                 <td>{{ url.Price }}</td>

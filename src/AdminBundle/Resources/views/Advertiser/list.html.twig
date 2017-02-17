@@ -17,6 +17,7 @@
                   <tr>
                      <th>#</th>
                      <th>Başlık</th>
+                     <th>Üye</th>
                      <th>İframe Link</th>
                      <th>Reklam Tipi</th>
                      <th>Gösterim</th>
@@ -32,6 +33,7 @@
                      <tr>
                         <td></td>
                         <td>{{ advertiser.Title }}</td>
+                        <td><a href="{{ url("admin_user_update",{ 'id' :advertiser.UserId }) }}"> {{ advertiser.Email }}</a></td>
                         <td> <a href="{{ advertiser.Url }}"><span>{{ advertiser.Url }}</span></a>  </td>
                         <td>{{ advertiser.AdType }}</td>
                         <td>{{ advertiser.Impression }}</td>

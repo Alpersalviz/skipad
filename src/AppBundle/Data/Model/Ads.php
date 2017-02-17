@@ -24,6 +24,7 @@ class Ads
     public $FirstPrice;
     public $CurrentPrice;
     public $Publish;
+    public $Email;
 
     public function MapFrom($data){
         $this->ID = $data["ID"];
@@ -38,6 +39,8 @@ class Ads
         $this->FirstPrice = $data["first_price"];
         $this->CurrentPrice = $data["current_price"];
         $this->Publish = $data["publish"];
+        if(array_key_exists('email',$data))
+            $this->Email = $data['email'];
 
         return $this;
     }

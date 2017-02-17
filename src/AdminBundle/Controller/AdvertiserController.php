@@ -33,7 +33,7 @@ class AdvertiserController extends BaseController
     public function ListAction(){
 
         return array(
-            'advertisers' => $this->_advertiserRepository->GetAds()
+            'advertisers' => $this->_advertiserRepository->GetAdsUser()
         );
 
     }

@@ -51,7 +51,36 @@ class AdvertiserRepository extends BaseRepository
         }
     }
 
+    public function GetAdsUser(){
+        try{
 
+            $query="SELECT a.* , u.ID , u.email 
+                    From ads a
+                    INNER JOIN user u 
+                    ON a.user_id = u.ID
+                    ORDER By a.created_date ";
+            
+            $result = $this->getConnection()->prepare($query);
+
+            $result->execute();
+
+            if( $result === false)
+                return false;
+
+            $results = $result->fetchAll();
+
+            $ads = array();
+
+            foreach ($results as &$result){
+                $ads[] = (new Ads())->MapFrom($result);
+            }
+
+            return $ads;
+
+        }catch (Exception $e){
+            return false;
+        }
+    }
     public function GetAdsByType($type){
         try{
 
