@@ -28,17 +28,27 @@ class UrlController extends BaseController
     }
 
     /**
-     * @Route("/url/list",name="user_url_list")
-     * @Template("UserBundle:Url:list.html.twig")
-     */
+ * @Route("/url/list",name="user_url_list")
+ * @Template("UserBundle:Url:list.html.twig")
+ */
     public function ListUrlAction(){
 
         return array(
-            'urls' => $this->_urlRepository->GetByUserIdUrl($this->GetSession()->get('id'))
+            'urls' => $this->_urlRepository->GetByUserIdUrl($this->GetSession()->get('id'),'link')
         );
 
     }
+    /**
+     * @Route("/url/changer/list",name="user_url_changer_list")
+     * @Template("UserBundle:Url:changer_list.html.twig")
+     */
+    public function ListUrlChangerAction(){
 
+        return array(
+            'urls' => $this->_urlRepository->GetByUserIdUrl($this->GetSession()->get('id'),'changelink')
+        );
+
+    }
     /**
      * @Route("/url/update/{id}",name="user_url_update")
      * @Template("UserBundle:Url:update.html.twig")
@@ -59,6 +69,14 @@ class UrlController extends BaseController
 
         return array();
 
+    }
+    /**
+     * @Route("/url/changer/add",name="user_url_changer_add")
+     * @Template("UserBundle:Url:changer_add.html.twig")
+     */
+    public function AddChangerUrlAction(){
+
+        return array();
     }
     /**
      * @Route("/url/multi/add",name="user_url_multi_add")
@@ -82,13 +100,36 @@ class UrlController extends BaseController
             if ($randomUrlCount->ListSize != 0)
                 $url = $this->getRandomString();
 
-        $addUrl = $this->_urlRepository->AddUrl($redirectUrl,$url,$userId);
+        $addUrl = $this->_urlRepository->AddUrl($redirectUrl,$url,$userId,'link');
 
         return new JsonResponse(array(
             'success' => $addUrl
         ));
 
     }
+    /**
+     * @Route("/ajax/url/changer/add",name="user_ajax_url_changer_add")
+     */
+    public function AjaxAddChangerUrlAction(Request $request){
+        $redirectUrl = $request->request->get('url');
+        $url = $this->getRandomString();
+        $userId = $this->GetSession()->get("id");
+
+        $randomUrlCount = $this->_urlRepository->GetRandomUrl($url);
+
+        if ($randomUrlCount->ListSize != 0)
+            $url = $this->getRandomString();
+
+        $addUrl = $this->_urlRepository->AddUrl($redirectUrl,$url,$userId,'changelink');
+
+        return new JsonResponse(array(
+            'success' => $addUrl
+        ));
+
+    }
+
+
+
     /**
      * @Route("/ajax/url/multi/add",name="user_ajax_url_multi_add")
      */
@@ -106,7 +147,7 @@ class UrlController extends BaseController
             if ($randomUrlCount->ListSize != 0)
                 $url = $this->getRandomString();
 
-            $addUrl = $this->_urlRepository->AddUrl($redirectUrl,$url,$userId);
+            $addUrl = $this->_urlRepository->AddUrl($redirectUrl,$url,$userId,'link');
         }
 
 

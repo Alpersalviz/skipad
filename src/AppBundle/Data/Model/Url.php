@@ -20,6 +20,7 @@ class Url
     public $CreatedDate;
     public $Visitor;
     public $Email;
+    public $Type;
 
     public function MapFrom($data){
         $this->ID = $data["ID"];
@@ -30,6 +31,7 @@ class Url
         $this->UserId = $data["user_id"];
         $this->CreatedDate = $data["created_date"];
         $this->Visitor  = $data["visitor"];
+        $this->Type  = $data["type"];
         if(array_key_exists('email',$data))
             $this->Email = $data['email'];
 

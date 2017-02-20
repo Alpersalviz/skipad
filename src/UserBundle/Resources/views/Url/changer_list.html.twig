@@ -46,8 +46,10 @@
                                     <button type="button"
                                             onclick="location.href='{{ url("user_url_update",{ 'id' :url.ID }) }}';"
                                             class="edit btn btn-primary glyphicon glyphicon-pencil"></button>
+
+
                                     <button type="button" data-id="{{ url.ID }}"
-                                            class="link-remove edit btn btn-primary glyphicon glyphicon-remove"></button>
+                                            class="link-remove edit btn btn-danger glyphicon glyphicon-remove"></button>
                                 </td>
                             </tr>
                         {% endfor %}

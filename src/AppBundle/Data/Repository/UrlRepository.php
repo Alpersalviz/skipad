@@ -16,16 +16,17 @@ use Symfony\Component\Config\Definition\Exception\Exception;
 class UrlRepository extends BaseRepository
 {
 
-    public function GetByUserIdUrl($userId){
+    public function GetByUserIdUrl($userId,$type){
 
         try{
             $query="SELECT *
                     FROM urls 
-                    WHERE user_id = :user_id
+                    WHERE user_id = :user_id AND type = :type
                     ORDER BY created_date DESC";
             $result = $this->getConnection()->prepare($query);
             $result->execute(array(
-                ':user_id' => $userId
+                ':user_id' => $userId,
+                ':type' => $type
             ));
             $results = $result->fetchAll();
 
@@ -115,13 +116,13 @@ class UrlRepository extends BaseRepository
             return false;
         }
     }
-    public function AddUrl($redirectUrl,$randomUrl,$userId){
+    public function AddUrl($redirectUrl,$randomUrl,$userId,$type){
 
     try{
 
         $query="INSERT INTO urls
-                  (url,redirect_url, price, impression, user_id, created_date)VALUES
-                  (:url, :redirect_url, :price, :impression, :user_id, :created_date);";
+                  (url,redirect_url, price, impression, user_id, created_date,type)VALUES
+                  (:url, :redirect_url, :price, :impression, :user_id, :created_date,:type);";
 
         $result = $this->getConnection()->prepare($query);
         $result->execute(array(
@@ -130,7 +131,8 @@ class UrlRepository extends BaseRepository
             ':price'            =>0,
             ':impression'       =>0,
             ':user_id'          =>$userId,
-            ':created_date'     =>date("Y-m-d H:i:s")
+            ':created_date'     =>date("Y-m-d H:i:s"),
+            ':type'             =>$type
         ));
 
         if ($result === false)
