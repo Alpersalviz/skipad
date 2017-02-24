@@ -44,8 +44,9 @@
                                 <td>{{ url.CreatedDate }}</td>
                                 <td>
                                     <button type="button"
-                                            onclick="location.href='{{ url("user_get_url_code",{ 'id' :url.ID }) }}';"
+                                            onclick="location.href='{{ url("user_get_popup_code",{ 'id' :url.ID }) }}';"
                                             class="edit btn btn-primary">Kod Al</button>
+
                                 </td>
                             </tr>
                         {% endfor %}

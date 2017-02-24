@@ -73,6 +73,54 @@ class DefaultController extends BaseController
         );
     }
     /**
+     * @Route("/redirect/popup/{url}",name="homepage_popup_redirect")
+     */
+    public function PopupRedirectAction($url,Request $request)
+    {
+        $popup = $this->_advertiserRepository->GetAdsByType('popup');
+        $popupId = $popup["ID"];
+        $urlObj = $this->_urlRepository->GetByRedirectUrl($url);
+        $urlId = $urlObj->ID;
+        $userId =  $request->query->get('userid');
+        $ip = $request->getClientIp();
+        $geoiploc = new Geoiploc();
+        $country = $geoiploc->getCountryFromIP($ip);
+
+        $is3g = $geoiploc->is3g($ip);
+
+        $setting = $this->_settingRepository->GetSetting();
+
+        $popupIpcount = $this->_adIpRepository->GetAdCountByIp($ip,$urlId,'popup');
+
+        $ppcCountry = $this->_ppcCountryRepository->GetCountryPpc($country,$is3g);
+
+        $balance = 0;
+        if($popupIpcount == 0 && $popupId !=0 ) {
+            $adIp = new AdIp();
+            $adIp->UrlId = $urlId;
+            $adIp->Ip = $ip;
+
+            $adIp->AdId = $popupId;
+            $adIp->AdType = 'popup';
+            $this->_adIpRepository->AddAdIp($adIp);
+            if (!isset($ppcCountry["popup"])) {
+                $balance += $setting->PopupPpcPublisher;
+            } else {
+                $balance += $ppcCountry["popup"]->PpcPublisher;
+            }
+            $this->_advertiserRepository->UpdateImpression($popupId, (!isset($ppcCountry["popup"]) ? 0 : $ppcCountry["popup"]->Ppc));
+        }
+        if($balance != 0) {
+            $this->_urlRepository->UpdateVisitor($urlId,$balance);
+
+            $this->_userRepository->AddBalance($urlObj->UserId,$balance);
+        }else{
+            $this->_urlRepository->UpdateImpression($urlId);
+
+        }
+            return $this->redirect($popup["url"]);
+    }
+    /**
      * @Route("/UrlConfirmRedirectAction/",name="homepage_url_confirm_redirect")
      */
     public function UrlConfirmRedirectAction(Request $request)
@@ -84,7 +132,7 @@ class DefaultController extends BaseController
         $urlId = $data["urlId"];
         $ip = $request->getClientIp();
         $geoiploc = new Geoiploc();
-        $country = $geoiploc->getCountryFromIP('78.178.235.139');
+        $country = $geoiploc->getCountryFromIP($ip);
 
         $is3g = $geoiploc->is3g($ip);
 
@@ -168,8 +216,12 @@ class DefaultController extends BaseController
 
         }
 
+        if($data["returnUrl"] != null){
+            return $this->redirect(base64_decode($data["returnUrl"]));
+        }else{
+            return $this->redirect($urlObj->RedirectUrl);
+        }
 
-        return $this->redirect($urlObj->RedirectUrl);
     }
  
 

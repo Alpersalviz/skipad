@@ -49,6 +49,18 @@ class UrlController extends BaseController
         );
 
     }
+
+    /**
+     * @Route("/popup/list",name="user_popup_list")
+     * @Template("UserBundle:Url:popup_list.html.twig")
+     */
+    public function ListPopupAction(){
+
+        return array(
+            'urls' => $this->_urlRepository->GetByUserIdUrl($this->GetSession()->get('id'),'popup')
+        );
+
+    }
     /**
      * @Route("/url/update/{id}",name="user_url_update")
      * @Template("UserBundle:Url:update.html.twig")
@@ -71,10 +83,41 @@ class UrlController extends BaseController
 
     }
     /**
+     * @Route("/get/popup/code/{id}",name="user_get_popup_code")
+     * @Template("UserBundle:Url:get_popup_code.html.twig")
+     */
+    public function GetPopupCodeAction($id){
+
+        return array(
+            'url' => $this->_urlRepository->GetUrlById($id)
+        );
+
+    }
+    /**
+     * @Route("/get/url/code/{id}",name="user_get_url_code")
+     * @Template("UserBundle:Url:get_url_code.html.twig")
+     */
+    public function GetUrlCodeAction($id){
+
+        return array(
+            'url' => $this->_urlRepository->GetUrlById($id)
+        );
+
+    }
+    /**
      * @Route("/url/changer/add",name="user_url_changer_add")
      * @Template("UserBundle:Url:changer_add.html.twig")
      */
     public function AddChangerUrlAction(){
+
+        return array();
+    }
+
+    /**
+     * @Route("/popuo/add",name="user_popup_add")
+     * @Template("UserBundle:Url:popup_add.html.twig")
+     */
+    public function AddPopupAction(){
 
         return array();
     }
@@ -128,7 +171,26 @@ class UrlController extends BaseController
 
     }
 
+    /**
+     * @Route("/ajax/popup/add",name="user_ajax_popup_add")
+     */
+    public function AjaxAddPopupUrlAction(Request $request){
+        $redirectUrl = $request->request->get('url');
+        $url = $this->getRandomString();
+        $userId = $this->GetSession()->get("id");
 
+        $randomUrlCount = $this->_urlRepository->GetRandomUrl($url);
+
+        if ($randomUrlCount->ListSize != 0)
+            $url = $this->getRandomString();
+
+        $addUrl = $this->_urlRepository->AddUrl($redirectUrl,$url,$userId,'popup');
+
+        return new JsonResponse(array(
+            'success' => $addUrl
+        ));
+
+    }
 
     /**
      * @Route("/ajax/url/multi/add",name="user_ajax_url_multi_add")

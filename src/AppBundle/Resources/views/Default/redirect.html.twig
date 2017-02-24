@@ -61,6 +61,7 @@
              <input type="hidden" name="popupId" value="{{ popupAd["ID"] }}" />
              <input type="hidden" name="url" value="{{ url.Url }}" />
              <input type="hidden" name="urlId" value="{{ url.ID }}" />
+             {% if(app.request.get('returnurl') != null) %} <input type="hidden" name="returnUrl" value="{{ app.request.get('returnurl') }}" />{% endif %}
              <div class="g-recaptcha" data-sitekey="6LcLXBQUAAAAAKHhPMJjk-FfeU_DQ_-n51MXENv8" data-callback="clickRecaptcha"></div>
          </form>
      </div>
