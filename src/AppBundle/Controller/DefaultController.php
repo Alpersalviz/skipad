@@ -49,9 +49,48 @@ class DefaultController extends BaseController
      */
     public function indexAction(Request $request)
     {
+            return $this->redirect('/tr');
+
         return array();
     }
 
+    /**
+     * @Route("/{code}",name="homepageLanguage")
+     * @Template("AppBundle:Default:index.html.twig")
+     */
+    public function indexLanguageAction(Request $request,$code)
+    {
+        $this->RemoveSession($code);
+        $this->GetSession()->set('language', $code);
+
+        if ($this->GetSession()->get("email") != null && $this->GetSession()->get('usertype') == 'user')
+            return $this->redirect('/user');
+
+        return array();
+    }
+    /**
+     * @Route("/ajax/url/add",name="ajax_url_add")
+     */
+    public function AjaxAddUrlAction(Request $request){
+        $redirectUrl = $request->request->get('url');
+        $url = $this->getRandomString();
+        $userId = $this->GetSession()->get("id") == null ? 0 : $this->GetSession()->get("id") ;
+
+        $randomUrlCount = $this->_urlRepository->GetRandomUrl($url);
+
+        if ($randomUrlCount->ListSize != 0)
+            $url = $this->getRandomString();
+
+        $addUrl = $this->_urlRepository->AddUrl($redirectUrl,$url,$userId,'link');
+
+        $nowAddUrl = $this->_urlRepository->GetUrlById($addUrl['id']);
+
+        return new JsonResponse(array(
+            'success' => $addUrl['succsess'],
+            'link' => $nowAddUrl
+        ));
+
+    }
 
     /**
      * @Route("/{url}",name="homepage_url_redirect")
@@ -214,16 +253,27 @@ class DefaultController extends BaseController
         }else{
             $this->_urlRepository->UpdateImpression($urlId);
 
-        }
+        } 
 
-        if($data["returnUrl"] != null){
+        if(array_key_exists('returnUrl', $data)){
             return $this->redirect(base64_decode($data["returnUrl"]));
         }else{
             return $this->redirect($urlObj->RedirectUrl);
         }
 
     }
- 
+
+    function getRandomString($length = 6) {
+        $characters = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+        $string = '';
+
+        for ($i = 0; $i < $length; $i++) {
+            $string .= $characters[mt_rand(0, strlen($characters) - 1)];
+        }
+
+        return $string;
+    }
+
 
 
 }

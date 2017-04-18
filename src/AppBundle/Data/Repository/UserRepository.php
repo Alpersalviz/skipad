@@ -200,7 +200,8 @@ class UserRepository extends BaseRepository
 
             $query="INSERT INTO user
                   (email, password, user_type, name, surname, address1, address2, city, country, zip_code, phone_number, account_type, payment_type, payment_info, balance, created_ip,publish)VALUES
-                  (:email, :password, :user_type, :name, :surname, :address1, :address2, :city, :country, :zip_code, :phone_number, :account_type, :payment_type, :payment_info, :balance, :created_ip),:publish;";
+                  (:email, :password, :user_type, :name, :surname, :address1, :address2, :city, :country, :zip_code, :phone_number, :account_type, :payment_type, :payment_info, :balance, :created_ip,:publish);";
+
 
             $result = $this->getConnection()->prepare($query);
             $result->execute(array(

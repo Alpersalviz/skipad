@@ -11,7 +11,7 @@ services:
 
       admin.default_controller:
           class: AdminBundle\Controller\DefaultController
-          arguments: ["@app.user_repository"]
+          arguments: ["@app.user_repository","@app.label_repository"]
           parent: "admin.base_controller"
 
       admin.user_controller:

@@ -3,167 +3,273 @@
 <head>
 
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="Content-Type" content="text/HTML; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>adult.tl</title>
     <meta name="description" content="">
-    <meta name="author" content="">
-
-    <title>Link</title>
-
-    <!-- Bootstrap Core CSS -->
+    <meta name="keywords" content="">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700,800|Raleway:100,200,300,400,500,600,700,800,900&amp;subset=latin-ext" rel="stylesheet">
     <link href="{{ asset('static/css/bootstrap.css') }}" rel="stylesheet">
 
     <!-- MetisMenu CSS -->
-    <link href="{{ asset('static/css/metisMenu.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('static/js/font-awesome-4.7.0/css/font-awesome.min.css') }}" rel="stylesheet">
+
+    <link href="{{ asset('static/js/slick-1.6.0/slick/slick-theme.css') }}" rel="stylesheet">
+
+    <link href="{{ asset('static/js/slick-1.6.0/slick/slick.css') }}" rel="stylesheet">
 
     <!-- Custom CSS -->
-    <link href="{{ asset('static/css/sb-admin-2.css') }}" rel="stylesheet">
+    <link href="{{ asset('static/css/main.css') }}" rel="stylesheet">
 
-    <!-- Morris Charts CSS -->
-    <link href="{{ asset('static/css/morris.css') }}" rel="stylesheet">
-
-    <link href="{{ asset('static/css/font-awesome.min.css') }}" rel="stylesheet">
-
-    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
-    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
-    {% block stylesheet %}
-    {% endblock %}
-    <![endif]-->
 
 </head>
 
 <body>
-{% block login %}
-{% endblock %}
-{% if app.session.get('usertype') == 'user' %}
-<nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-    <div class="navbar-header">
-        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="/user">Link Yönlendir</a>
 
-    </div>
-    <!-- /.navbar-header -->
-    <ul class="nav navbar-top-links navbar-right">
-        <!-- /.dropdown -->
-        <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#" aria-expanded="true">
-                <i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
-            </a>
-            <ul class="dropdown-menu dropdown-user">
-                <li><a href="{{ url('user_update') }}"><i class="fa fa-gear fa-fw"></i> Ayarlar</a>
-                </li>
-                <li class="divider"></li>
-                <li><a href="{{ url("user_logout") }}"><i class="fa fa-sign-out fa-fw"></i> Çıkış Yap</a>
-                </li>
-            </ul>
-            <!-- /.dropdown-user -->
-        </li>
-        <!-- /.dropdown -->
-    </ul>
-    <!-- /.navbar-top-links -->
+    <header class="clearfix">
+        <div class="container">
 
-    <div class="navbar-default sidebar" role="navigation">
-        <div class="sidebar-nav navbar-collapse">
-            <ul class="nav" id="side-menu">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="flags pull-right">
+                        <a href="/tr" class="active"><img src="{{ asset('static/img/flags/turkey.png') }}" /></a>
+                        <a href="/de"><img src="{{ asset('static/img/flags/germany.png') }}" /></a>
+                        <a href="/fr"><img src="{{ asset('static/img/flags/france.png') }}" /></a>
+                        <a href="/es"><img src="{{ asset('static/img/flags/spain.png') }}" /></a>
+                        <a href="/en"><img src="{{ asset('static/img/flags/unitedkingdom.png') }}" /></a>
+                    </div>
+                </div>
+            </div>
+            {% if app.session.get('usertype') == 'user' %}
+            <nav class="navbar navbar-default">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="{{ url("user") }}"><img src="{{ asset("static/img/logo.png") }}" class="img-responsive" /></a>
+                </div>
 
-                <li>
-                    <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Yayıncı<span class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level">
-                        <li>
-                            <a href="{{ url("user_url_list") }}">Linkler</a>
-                        </li>
-                        <li>
-                            <a href="{{ url("user_url_add") }}">Link Oluştur</a>
-                        </li>
-                        <li>
-                            <a href="{{ url("user_url_multi_add") }}">Toplu Link Oluştur</a>
-                        </li>
-                        <li>
-                            <a href="{{ url("user_list_payment",{ 'type' : 'send' }) }}">Ödeme İsteklerim</a>
-                        </li>
-                        <li>
-                            <a href="{{ url("user_get_payment") }}">Ödeme Almak İstiyorum</a>
-                        </li>
-                        <li>
-                        <li>
-                            <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Link Değiştir<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="{{ url("user") }}">{{ Label("HOME") }}</a></li>
+                        <li class="dropdown-">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ Label("YAYINCI") }}<i class="fa fa-angle-down"></i></a>
+                            <ul class="dropdown-menu">
                                 <li>
-                                    <a href="{{ url("user_url_changer_list") }}">Değiştirilen Linkler</a>
+                                    <a href="{{ url("user_url_list") }}">{{ Label("Linkler") }}</a>
                                 </li>
                                 <li>
-                                    <a href="{{ url("user_url_changer_add") }}">Tüm Linkleri Değiştir</a>
+                                    <a href="{{ url("user_url_add") }}">{{ Label("Link Oluştur") }}</a>
+                                </li>
+                                <li>
+                                    <a href="{{ url("user_url_multi_add") }}">{{ Label("Toplu Link Oluştur") }}</a>
+                                </li>
+                                <li>
+                                    <a href="{{ url("user_list_payment",{ 'type' : 'send' }) }}">{{ Label("Ödeme İsteklerim") }}</a>
+                                </li>
+                                <li>
+                                    <a href="{{ url("user_get_payment") }}">{{ Label("Ödeme Almak İstiyorum") }}</a>
+                                </li>
+
+                                <li class="dropdown-submenu">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ Label("Link Değiştir") }}<i class="fa fa-angle-down"></i></a>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="{{ url("user_url_changer_list") }}">{{ Label("Değiştirilen Linkler") }}</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ url("user_url_changer_add") }}">{{ Label("Tüm Linkleri Değiştir") }}</a>
+                                        </li>
+
+                                    </ul>
+                                </li>
+
+                                <li class="dropdown-submenu">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ Label("Popup") }}<i class="fa fa-angle-down"></i></a>
+                                    <ul class="dropdown-menu">
+                                        <li>
+                                            <a href="{{ url("user_popup_list") }}">{{ Label("Popup Reklamlarım") }} </a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ url("user_popup_add") }}">{{ Label("Popup Reklamı Al") }} </a>
+                                        </li>
+
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="dropdown-">
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">{{ Label("REKLAM VEREN") }}<i class="fa fa-angle-down"></i></a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a href="{{ url("user_advertiser_list") }}">{{ Label("Reklamlarım") }}</a>
+                                </li>
+                                <li>
+                                    <a href="{{ url("user_advertiser_add") }}">{{ Label("Reklam Oluştur") }}</a>
+                                </li>
+                                <li>
+                                    <a href="{{ url("user_list_payment",{ 'type' : 'notification' }) }}">{{ Label("Ödeme Bildirimlerim") }}</a>
+                                </li>
+                                <li>
+                                    <a href="{{ url("user_set_payment") }}">{{ Label("Ödeme Yaptım") }}</a>
                                 </li>
 
                             </ul>
                         </li>
-                        <li>
-                            <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Popup<span class="fa arrow"></span></a>
-                            <ul class="nav nav-second-level">
-                                <li>
-                                    <a href="{{ url("user_popup_list") }}">Popup Reklamlarım</a>
-                                </li>
-                                <li>
-                                    <a href="{{ url("user_popup_add") }}">Popup Reklamı Al</a>
-                                </li>
-
+                        <li><a href="{{ url("about") }}">{{ Label("ABOUT US") }}</a></li>
+                        <li><a href="{{ url("contact") }}">{{ Label("CONTACT") }}</a></li>
                             </ul>
-                        </li>
+
+
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="{{ url('user_logout') }}">{{ Label("LOG OUT") }}</a></li>
+                        <li><a href="{{ url('user_update') }}">{{ Label("SETTING") }}</a></li>
                     </ul>
-                    <!-- /.nav-second-level -->
-                </li>
-                <li>
-                    <a href="#"><i class="fa fa-bar-chart-o fa-fw"></i> Reklam Veren<span class="fa arrow"></span></a>
-                    <ul class="nav nav-second-level">
-                        <li>
-                            <a href="{{ url("user_advertiser_list") }}">Reklamlarım</a>
-                        </li>
-                        <li>
-                            <a href="{{ url("user_advertiser_add") }}">Reklam Oluştur</a>
-                        </li>
-                        <li>
-                            <a href="{{ url("user_list_payment",{ 'type' : 'notification' }) }}">Ödeme Bildirimlerim</a>
-                        </li>
-                        <li>
-                            <a href="{{ url("user_set_payment") }}">Ödeme Yaptım</a>
-                        </li>
-                    </ul>
-                    <!-- /.nav-second-level -->
-                </li>
-            </ul>
+                </div>
+            </nav>
+            {% endif %}
+            <div class="row">
+                <div class="col-sm-10 col-sm-offset-1 col-xs-12">
+                    <div class="textSlider text-center">
+                        <div class="item">
+                            {{ Label("SLIDER ITEM1") }}
+                        </div>
+                        <div class="item">
+                            {{ Label("SLIDER ITEM2") }}
+                        </div>
+                        <div class="item">
+                            {{ Label("SLIDER ITEM3") }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-sm-10 col-sm-offset-1 col-xs-12">
+
+                    <div class="alert alert-success link-add" style="display: none">
+                        <strong> </strong>
+                    </div>
+
+                    <div class="alert alert-danger" style="display: none"><strong>{{ Label("Error") }}</strong></div>
+                    <form class="form-inline link-form" id="link-form"  method="post" role="form">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="{{ Label("Shorten URL and get paid") }}" data-validation="url"  data-validation-error-msg="{{ Label("Enter valid information") }}" name="url" id="url" tabindex="1">
+                        </div>
+                        <input type="submit" class="btn pull-right"  value="{{ Label("SHRINK") }}">
+                    </form>
+
+
+
+                </div>
+            </div>
+
+            <div class="sliderDots"></div>
         </div>
-        <!-- /.sidebar-collapse -->
-    </div>
-    <!-- /.navbar-static-side -->
-</nav>
+    </header>
+    {% block login %}
+    {% endblock %}
 {% block content %}
 
 
 {% endblock %}
 
 <!-- /#wrapper -->
-{% endif %}
-<!-- jQuery -->
+
+<footer class="clearfix">
+    <div class="container">
+        <div class="text-center">
+            <img src="{{ asset("static/img/logo.png") }}" class="img-responsive" />
+        </div>
+        <div class="row">
+            <div class="col-sm-10 col-sm-offset-1 col-xs-12">
+                <div class="alert alert-success link-add" style="display: none">
+                    <strong> </strong>
+                </div>
+
+                <div class="alert alert-danger" style="display: none"><strong>{{ Label("Error") }}</strong></div>
+                <form class="form-inline link-form" id="link-form"  method="post" role="form">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="{{ Label("Shorten URL and get paid") }}" data-validation="url"  data-validation-error-msg="{{ Label("Enter valid information") }}" name="url" id="url" tabindex="1">
+                    </div>
+                    <input type="submit" class="btn pull-right"  value="{{ Label("SHRINK") }}">
+                </form>
+            </div>
+        </div>
+        <div class="copyText">
+            <div class="col-xs-6">
+                <div class="row">
+                    © 2016 ADULT.tl - All Rights Reserved
+                </div>
+            </div>
+            <div class="col-xs-6 text-right">
+                <div class="row">
+                    <a href="#"><i class="fa fa-facebook"></i></a>
+                    <a href="#"><i class="fa fa-twitter"></i></a>
+                    <a href="#"><i class="fa fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
 <script type="text/javascript" src="{{ asset('static/js/jquery-3.1.1.min.js') }}"></script>
 <!-- Bootstrap Core JavaScript -->
 <script src="{{ asset('static/js/bootstrap.min.js') }}"></script>
 
 <!-- Metis Menu Plugin JavaScript -->
-<script src="{{ asset('static/js/metisMenu.min.js') }}"></script>
+<script src="{{ asset('static/js/slick-1.6.0/slick/slick.min.js') }}"></script>
 
 <!-- Morris Charts JavaScript -->
-<script src="{{ asset('static/js/raphael.min.js') }}"></script>
+<script src="{{ asset('static/js/main.js') }}"></script>
 
-<!-- Custom Theme JavaScript -->
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
-<script src="{{ asset('static/js/sb-admin-2.js') }}"></script>
 {% block javascript %}
 {% endblock %}
+<script>
+    var FormsAdd={
+        Link:{
+            Self:$('.link-form'),
+            Field:{
+                Url:$('.link-form input[name ="url"]')
+
+            } ,
+            Bind:function () {
+                FormsAdd.Link.Self.on('submit',function (e) {
+                    e.preventDefault();
+                    $.post('{{ url('ajax_url_add') }}',$(this).serialize(),function (result) {
+                        if(result.success)
+                        {
+                            $(".link-add strong").html("<a href='127.0.0.1:8000"+result.link.Url+"'>127.0.0.1:8000/"+result.link.Url+"</a>")
+                            $('.alert-success').slideDown();
+
+                        }else {
+                            $('.alert-danger').slideDown();
+                        }
+                    })
+                    return false;
+                })
+            }
+        },
+
+        Bind:function () {
+            FormsAdd.Link.Bind();
+        }
+    }
+
+    $(document).ready(function () {
+
+        FormsAdd.Bind();
+
+    });
+
+
+
+</script>
+
 </body>
 
 </html>

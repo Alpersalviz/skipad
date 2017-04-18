@@ -56,6 +56,16 @@ services:
           class: AppBundle\Data\Repository\AdIpRepository
           parent: app.base_repository
 
+      app.label_repository:
+          class: AppBundle\Data\Repository\LabelRepository
+          parent: app.base_repository
+
       app.ppccountry_repository:
           class: AppBundle\Data\Repository\PpcCountryRepository
           parent: app.base_repository
+
+      app.generichelper:
+        class: AppBundle\Domain\Helper\GenericHelper
+        arguments: ["@service_container","@request_stack","@app.label_repository"]
+        tags:
+            - { name: twig.extension }

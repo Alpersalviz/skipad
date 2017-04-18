@@ -2,19 +2,20 @@
 {% extends 'UserBundle:Default:base.html.twig' %}
 {% block content %}
 
-    <div id="page-wrapper">
+    <section id="mainForm" class="clearfix" xmlns="http://www.w3.org/1999/html" xmlns="http://www.w3.org/1999/html">
+    <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">Ödeme</h1>
+                <h1 class="page-header"> {{ Label("Ödeme") }} </h1>
             </div>
             <!-- /.col-lg-12 -->
         </div>
         <div class="alert alert-success" style="display: none">
-            <strong>Ödeme bildiriminizi aldık, ödeme en kısa zamanda hesabınıza geçicektir</strong>
+            <strong>  {{ Label("Ödeme bildiriminizi aldık, ödeme en kısa zamanda hesabınıza geçicektir") }} </strong>
         </div>
 
         <div class="alert alert-danger" style="display: none">
-            <strong>Hata oluştu tekrar deneyiniz</strong>
+            <strong>  {{ Label("Hata oluştu tekrar deneyiniz") }}</strong>
         </div>
         <div class="row">
 
@@ -22,17 +23,17 @@
             <div class="col-lg-12">
                 <div class="panel panel-green">
                     <div class="panel-heading">
-                        Ödeme Bilgileri
+                        {{ Label("Ödeme Bilgileri") }}
                     </div>
                     <div class="panel-body">
                         {{ setting.PaymentInfo| raw }}
                     </div>
                         <div class="row" style="padding: 10px">
                     <div class="col-lg-8">
-                    <label>Ödeme Yaptığınız Miktar:</label>
-                    <input type="text" data-validation-error-msg="Lütfen sayı giriniz"  data-validation="number" name="balance" id="balance" tabindex="12" class="form-control" placeholder="Ödeme Miktarı">
+                    <label> {{ Label("Ödeme Yaptığınız Miktar") }}</label>
+                    <input type="text" data-validation-error-msg=" {{ Label("Lütfen sayı giriniz") }}"  data-validation="number" name="balance" id="balance" tabindex="12" class="form-control" placeholder=" {{ Label("Ödeme Miktarı") }}">
                         <br/>
-                        <label>Ödeme Yaptığınız Banka:</label>
+                        <label> {{ Label("Ödeme Yaptığınız Banka") }}:</label>
                     <select class="form-control select" name="bank">
                         {% for bank in setting.PaymentBanks|split(',') %}
                             <option>{{ bank }}</option>
@@ -41,20 +42,20 @@
                         </div>
                         </div>
                     <div class="panel-footer">
-                        Bakiye: {{ user.Balance }} TL
+                        {{ Label("Bakiye") }} : {{ user.Balance }} TL
                     </div>
                 </div>
             </div>
 
 
                 <div class="col-sm-6 col-sm-offset-3">
-                    <input type="submit" class="btn btn-primary btn-lg" name="get-payment-submit" id="set-payment-submit" tabindex="4" class="form-control btn btn-register" value="Bakiye Yükle">
+                    <input type="submit" class="btn btn-primary btn-lg" name="get-payment-submit" id="set-payment-submit" tabindex="4" class="form-control btn btn-register" value="{{ Label("Bakiye Yükle") }}">
                 </div>
             </form>
         </div>
     </div>
-
-    </div>
+</div>
+    </section>
 {% endblock %}
 
 

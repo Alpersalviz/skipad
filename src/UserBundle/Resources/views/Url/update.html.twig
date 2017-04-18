@@ -1,29 +1,30 @@
 
 {% extends 'UserBundle:Default:base.html.twig' %}
 {% block content %}
-    <div id="page-wrapper">
+   <section id="mainForm" class="clearfix" xmlns="http://www.w3.org/1999/html">
+    <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">Link Düzenle</h1>
+                <h1 class="page-header">{{ Label("Link Düzenle") }}</h1>
             </div>
             <!-- /.col-lg-12 -->
         </div>
         <div class="alert alert-success" style="display: none">
-            <strong>Link Düzenlendi</strong>
+            <strong>{{ Label("Link Düzenlendi") }}</strong>
         </div>
 
-        <div class="alert alert-danger" style="display: none"><strong>Hata Oluştu</strong></div>
+        <div class="alert alert-danger" style="display: none"><strong>{{ Label("Hata Oluştu") }}</strong></div>
         <div class="row">
             <div class="col-lg-12">
                 <form id="link-form"  method="post" role="form">
                     <input type="hidden" name="id" id="id" tabindex="1" class="form-control" placeholder="url" value="{{ url.ID }}">
                     <div class="form-group">
-                        <input  data-validation="url"  data-validation-error-msg="Lütfen gerçerli link giriniz" type="text" name="url" id="url" tabindex="1" class="form-control" placeholder="url" value="{{ url.RedirectUrl }}">
+                        <input  data-validation="url"  data-validation-error-msg="{{ Label("Link") }}Lütfen gerçerli link giriniz" type="text" name="url" id="url" tabindex="1" class="form-control" placeholder="{{ Label("Url") }}" value="{{ url.RedirectUrl }}">
                     </div>
                     <div class="form-group">
                         <div class="row">
                             <div class="col-sm-3 col-sm-offset-4">
-                                <input type="submit" name="link-submit" id="link-submit" tabindex="4" class="btn btn-lg btn-success btn-block" value="Link Düzenle">
+                                <input type="submit" name="link-submit" id="link-submit" tabindex="4" class="btn btn-lg btn-success btn-block" value="{{ Label("Link Düzenle") }}">
                             </div>
                         </div>
                     </div>
@@ -31,6 +32,7 @@
             </div>
         </div>
     </div>
+    </section>
 {% endblock %}
 
 

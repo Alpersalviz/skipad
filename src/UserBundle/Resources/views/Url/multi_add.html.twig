@@ -2,29 +2,30 @@
 {% extends 'UserBundle:Default:base.html.twig' %}
 {% block content %}
 
-    <div id="page-wrapper">
+      <section id="mainForm" class="clearfix" xmlns="http://www.w3.org/1999/html">
+    <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">Link Oluştur</h1>
+                <h1 class="page-header">{{ Label("Link Oluştur") }}</h1>
             </div>
             <!-- /.col-lg-12 -->
         </div>
         <div class="alert alert-success" style="display: none">
-            <strong>Linkler Eklendi</strong>
+            <strong>{{ Label("Linkler Eklendi") }}</strong>
         </div>
 
-        <div class="alert alert-danger" style="display: none"><strong>Hata Oluştu</strong></div>
+        <div class="alert alert-danger" style="display: none"><strong>{{ Label("Hata Oluştu") }}</strong></div>
         <div class="row">
             <div class="col-lg-12">
                 <form id="link-form"  method="post" role="form">
 
                     <div class="form-group">
-                        <textarea name="multi_url" class="form-control" placeholder="Çoklu Link Kısaltma"></textarea>
+                        <textarea name="multi_url" class="form-control" placeholder="{{ Label("Çoklu Link Kısaltma") }}"></textarea>
                     </div>
                 <div class="form-group">
                     <div class="row">
                         <div class="col-sm-3 col-sm-offset-4">
-                            <input type="submit" name="link-submit" id="link-submit" tabindex="4" class="btn btn-lg btn-success btn-block" value="Link Ekle">
+                            <input type="submit" name="link-submit" id="link-submit" tabindex="4" class="btn btn-lg btn-success btn-block" value="{{ Label("Link Ekle") }}">
                         </div>
                     </div>
                 </div>
@@ -32,6 +33,7 @@
             </div>
         </div>
     </div>
+    </section>
 {% endblock %}
 
 

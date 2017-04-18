@@ -1,0 +1,24 @@
+{% extends 'UserBundle:Default:base.html.twig' %}
+
+{% block content %}
+    <section id="mainForm" class="clearfix">
+        <div class="container">
+            <h1 class="text-center">{{ Label("CONTACT") }}</h1>
+            <form>
+                <div class="form-group">
+                    <label for="email">{{ Label("E-mail address") }}</label>
+                    <input type="email" class="form-control" id="email" name="email">
+                </div>
+                <div class="form-group">
+                    <label for="email">{{ Label("Message") }}</label>
+                    <textarea class="form-control" id="message" name="message" rows="4"></textarea>
+                </div>
+                <div class="text-center">
+                    <button type="submit" class="btn">{{ Label("SEND MESSAGE") }}</button>
+                </div>
+            </form>
+        </div>
+    </section>
+{% endblock %}
+{% block javascript %}
+{% endblock %}

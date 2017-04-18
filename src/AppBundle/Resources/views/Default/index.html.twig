@@ -1,1 +1,137 @@
-Hello World Appqasd!
+{% extends 'AppBundle:Default:base.html.twig' %}
+
+{% block content %}
+    <section id="homeMain" class="clearfix text-center">
+        <div class="container">
+            <h2>
+                {{ Label("MONETIZE") }}
+            </h2>
+            <div class="row threeBoxes">
+                <a href="#" class="item col-md-4 col-xs-12">
+                    <img src="{{ asset("static/img/home/tb1.png") }}" class="img-responsive">
+                    <h3>
+                        {{ Label("YOUR PAGE") }}
+                    </h3>
+                </a>
+                <a href="#" class="item col-md-4 col-xs-12">
+                    <img src="{{ asset("static/img/home/tb2.png") }}" class="img-responsive">
+                    <h3>
+                        {{ Label("They See") }}
+                    </h3>
+                </a>
+                <a href="#" class="item col-md-4 col-xs-12">
+                    <img src="{{ asset("static/img/home/tb3.png") }}" class="img-responsive">
+                    <h3>
+                        {{ Label("EARN MONEY") }}
+                    </h3>
+                </a>
+            </div>
+            <p>  {{ Label("WE WILL") }} </p>
+        </div>
+    </section>
+    <section id="homeCenter" class="clearfix text-center">
+        <div class="container">
+            <h2>
+                {{ Label("homeCenter EARNING USERS") }}
+            </h2>
+            <p>{{ Label("homeCenter and they are") }}</p>
+            <div class="row threeBoxes">
+                <a href="#" class="item col-md-4 col-xs-12">
+                    <h3>
+                        {{ Label("homeCenter OWNERS") }}
+                    </h3>
+                    <hr>
+                    <p>{{ Label("homeCenter Who earn") }}</p>
+                </a>
+                <a href="#" class="item col-md-4 col-xs-12">
+                    <h3>
+                        {{ Label("homeCenter COMMUNITY MEMBERS") }}
+                    </h3>
+                    <hr>
+                    <p>{{ Label("homeCenter Using adult.tl") }}</p>
+                </a>
+                <a href="#" class="item col-md-4 col-xs-12">
+                    <h3>
+                        {{ Label("homeCenter ONLINE MARKETERS") }}
+                    </h3>
+                    <hr>
+                    <p> {{ Label("homeCenter Who show others") }}</p>
+                </a>
+            </div>
+            <div class="row">
+                <a href="#" class="btn col-md-4 col-md-offset-4 col-xs-8 col-xs-offset-2">
+                    {{ Label("homeCenter JOIN NOW") }}
+                </a>
+            </div>
+        </div>
+    </section>
+    <section id="homeMain" class="clearfix text-center">
+        <div class="container">
+            {{ Label("homeMain EASY TO USE") }}
+            <div class="row sixBoxes">
+                <div class="item col-md-4 col-sm-6 col-xs-12">
+                    <img src="{{ asset("static/img/home/sb1.png") }}" class="img-responsive">
+                    {{ Label("homeMain Complete Stats") }}
+                </div>
+                <div class="item col-md-4 col-sm-6 col-xs-12">
+                    <img src="{{ asset("static/img/home/sb2.png") }}" class="img-responsive">
+                    {{ Label("homeMain Website Scripts") }}
+                </div>
+                <div class="item col-md-4 col-sm-6 col-xs-12">
+                    <img src="{{ asset("static/img/home/sb3.png") }}" class="img-responsive">
+                    {{ Label("homeMain Social Widgets") }}
+                </div>
+                <div class="item col-md-4 col-sm-6 col-xs-12">
+                    <img src="{{ asset("static/img/home/sb4.png") }}" class="img-responsive">
+                    {{ Label("homeMain WP Blogspot Tools") }}
+                </div>
+                <div class="item col-md-4 col-sm-6 col-xs-12">
+                    <img src="{{ asset("static/img/home/sb5.png") }}" class="img-responsive">
+                    {{ Label("homeMain Affiliates") }}
+                </div>
+                <div class="item col-md-4 col-sm-6 col-xs-12">
+                    <img src="{{ asset("static/img/home/sb6.png") }}" class="img-responsive">
+                    {{ Label("homeMain API") }}
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="homeFoot" class="clearfix text-center">
+        <div class="container">
+            <h2>
+                {{ Label("homeFoot FAST GROWING") }}
+            </h2>
+            <p>{{ Label("homeFoot Numbers speak") }}</p>
+            <div class="row threeBoxes">
+                <a href="#" class="item col-md-4 col-xs-12">
+                    {{ Label("homeFoot CLICKED TODAY") }}
+                </a>
+                <a href="#" class="item col-md-4 col-xs-12">
+                    {{ Label("homeFoot SHORTENED LINKS") }}
+                </a>
+                <a href="#" class="item col-md-4 col-xs-12">
+                    {{ Label("homeFoot REGISTERED USERS") }}
+                </a>
+            </div>
+            <p><span>{{ Label("homeFoot Estimated") }}</span></p>
+        </div>
+    </section>
+    <section id="homeMain2" class="clearfix text-center">
+        <div class="container">
+            <div class="row threeBoxes">
+                <div class="item col-md-4 col-xs-12">
+                    {{ Label("homeMain2 HIGHLY CONVERTING") }}
+                </div>
+                <div class="item col-md-4 col-xs-12">
+                    {{ Label("homeMain2 PAYOUT ON") }}
+                </div>
+                <div class="item col-md-4 col-xs-12">
+                    {{ Label("homeMain2 DEDICATED CUSTOMER") }}
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+{% block javascript %}
+{% endblock %}

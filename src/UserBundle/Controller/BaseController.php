@@ -33,5 +33,8 @@ class BaseController extends Controller
         }
         return $this->_session;
     }
+    public function RemoveSession($code){
 
+        $this->_session->remove($code);
+    }
 }

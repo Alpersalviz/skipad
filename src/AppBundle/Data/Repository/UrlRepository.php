@@ -136,9 +136,17 @@ class UrlRepository extends BaseRepository
         ));
 
         if ($result === false)
-            return false;
+            return array(
+                'succsess' => false,
+                'id' => null
+            );
 
-        return true;
+        $lastId = intval($this->getConnection()->lastInsertId());
+
+        return array(
+            'succsess' => true,
+            'id' => $lastId
+        );
 
 
     }catch (Exception $e){

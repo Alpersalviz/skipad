@@ -24,13 +24,31 @@ class DefaultController extends BaseController
 
     /**
      * @Route("/",name="user")
-     * @Template("UserBundle:Url:add.html.twig")
+     * @Template("UserBundle:Default:index.html.twig")
      */
     public function indexAction()
     {
         $users = $this->_userRepository->GetUser();
         return array(
             'users' => $users
+        );
+    }
+    /**
+     * @Route("/about",name="about")
+     * @Template("UserBundle:Default:about.html.twig")
+     */
+    public function AboutAction()
+    {
+        return array(
+        );
+    }
+    /**
+     * @Route("/contact",name="contact")
+     * @Template("UserBundle:Default:contact.html.twig")
+     */
+    public function ContanctAction()
+    {
+        return array(
         );
     }
 

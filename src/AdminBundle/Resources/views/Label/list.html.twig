@@ -1,0 +1,159 @@
+{% extends 'AdminBundle:Default:base.html.twig' %}
+{% block content %}
+
+    <input type="hidden" id="searchkey" value="{{ labels.SearchKey }}">
+    <input type="hidden" value="{{ lang }}" id="lang">
+
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Label -- {{ langCode }}</h1>
+                <div class="col-sm-4">
+                    <form id="custom-search-form" class="form-search form-horizontal pull-right">
+                        <div class="form-group input-group" id="custom-search-form">
+
+                            <input type="text" class="form-control search-inp" placeholder="Search">
+                                            <span class="input-group-btn">
+                                                <button class="btn searchButton btn-default" type="button"><i
+                                                            class="fa fa-search"></i>
+                                                </button>
+                                            </span>
+                            {% if labels.SearchKey is not null and labels.SearchKey is not empty %}
+                                <button style="float: left; margin-right: 10px" type="button close"  aria-label="Close" class="btn btn-default">{{ labels.SearchKey }} <i
+                                            class="fa fa-remove"></i></button>
+                            {% endif %}
+                        </div>
+                    </form>
+                </div>
+                <div class="col-sm-4">
+
+                    <select name="dataTables-example_length" aria-controls="dataTables-example"
+                            class="custom-select form-control input-sm">
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="30">30</option>
+                        <option value="40">40</option>
+                    </select>
+                </div>
+            </div>
+            <!-- /.col-lg-12 -->
+        </div>
+                <div class="row">
+            <div class="panel-body">
+                <div class="table-responsive">
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Label Code</th>
+                            <th>Label</th>
+                            <th></th>
+                        </tr>
+                        </thead>
+                        <tbody>
+
+                        {% for label in labels.Content %}
+                            <tr>
+                                <td></td>
+                                <td>{{ label.LabelCode }}</td>
+                                <td>{{ label.Label }}</td>
+                                <td>
+                                    <button type="button"
+                                            onclick="location.href='{{ url("label_update",{ 'id' :label.ID }) }}';"
+                                            class="edit btn btn-primary glyphicon glyphicon-pencil"></button>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                    <div class="col-sm-12">
+                        <div class="dataTables_paginate paging_simple_numbers" id="dataTables-example_paginate">
+                            <ul class="pagination">
+                                {% if labels.ListSize != 0 %}
+                                {% for i in 1..(labels.ListSize / labels.Limit)|round(0, 'ceil') %}
+                                <li data-id="{{ i }}" class="paginate_button" aria-controls="dataTables-example"
+                                    tabindex="0">
+                                    {% if labels.SearchKey is not null %}
+                                        <a href="{{ url("label_list",{ 'lang' : lang  , 'limit':labels.Limit ,'page' :i-1 , 'searchKey':labels.SearchKey }) }}">{{ i }} </a></li>
+                                    {% else %}
+                                        <a href="{{ url("label_list",{ 'lang' : lang , 'limit':labels.Limit ,'page' :i-1  }) }}">{{ i }} </a></li>
+                                    {% endif %}
+
+
+                                {% endfor %}
+                                {% endif %}
+
+
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- /.table-responsive -->
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascript %}
+
+    <script>
+        function getParameterByName(name, url) {
+            if (!url) {
+
+            }
+            name = name.replace(/[\[\]]/g, "\\$&");
+            var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+                    results = regex.exec(url);
+            if (!results) return null;
+            if (!results[2]) return '';
+            return decodeURIComponent(results[2].replace(/\+/g, " "));
+        }
+
+        var url = window.location.href;
+        var a = url.split("/");
+        var b = url.split("/list");
+        var page = a[8];
+        var limit =a[7];
+
+        $(document).ready(function () {
+            var searchKey = $("#searchkey").val();
+            if(page == 0 || page == null){
+                $( ".paginate_button[data-id='1']" ).addClass('active');
+            }else{
+                var pageNum = (page*1)+1
+                $( ".paginate_button[data-id='"+pageNum+"']" ).addClass('active');
+            }
+
+            if(limit != null){
+                $(".custom-select option[value='"+limit+"']" ).prop('selected',true);
+            }
+            $('.custom-select').on('change', function() {
+                if(searchKey != null && searchKey != ""){
+                    window.location.href =  b[0]+"/list/"+$("#lang").val()+"/"+this.value+"/0/?searchKey="+searchKey;
+                }else{
+                    window.location.href =  b[0]+"/list/"+$("#lang").val()+"/"+this.value+"/0/";
+                }
+
+            })
+
+            var searchEvent = function () {
+                var search = $(".search-inp").val();
+                window.location.href = b[0]+ "/list/"+$("#lang").val()+"/10/0/?searchKey="+search;
+            }
+
+            $(".search-inp").keypress(function(event) {
+
+                if (event.which == 13){
+                    var search =  this.value;
+                    window.location.href = b[0]+ "/list/"+$("#lang").val()+"/10/0/?searchKey="+search;
+                    return false;
+                }
+            });
+
+            $('.searchButton').click(searchEvent);
+
+
+        });
+
+
+    </script>
+{% endblock %}

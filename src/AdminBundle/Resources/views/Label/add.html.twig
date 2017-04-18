@@ -1,0 +1,83 @@
+
+{% extends 'AdminBundle:Default:base.html.twig' %}
+{% block content %}
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">Label Ekle</h1>
+            </div>
+
+            <!-- /.col-lg-12 -->
+        </div>
+        <div class="alert alert-success" style="display: none">
+            <strong>Güncellendi</strong>
+        </div>
+
+        <div class="alert alert-danger" style="display: none"><strong>Hata Oluştu</strong></div>
+
+        <div class="row">
+            <div class="col-lg-12">
+                <form id="label-form"  method="post" role="form">
+                    <input type="hidden" name="language_id" id="id" tabindex="1" class="form-control" placeholder="Başlık" value="{{ language }}">
+                    <div class="form-group">
+                        <input  data-validation="required"  data-validation-error-msg="zorunlu alanını boş bırakmayınız" type="text" name="label_code" id="label_code" tabindex="1" class="form-control" placeholder="Label Code">
+                    </div>
+                    <div class="form-group">
+                        <input  data-validation="required"  data-validation-error-msg="zorunlu alanını boş bırakmayınız" type="text" name="label" id="label" tabindex="1" class="form-control" placeholder="Label">
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-sm-3 col-sm-offset-4">
+                                <input type="submit" name="link-submit" id="link-submit" tabindex="4" class="btn btn-lg btn-success btn-block" value="Label Ekle">
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+
+{% block javascript %}
+    <script>
+        var Forms={
+            Link:{
+                Self:$('#label-form'),
+
+                Bind:function () {
+                    Forms.Link.Self.on('submit',function (e) {
+                        e.preventDefault();
+                        $.post('{{ url('ajax_label_add') }}',$(this).serialize(),function (result) {
+                            if(result.success)
+                            {
+                                setTimeout(function () {
+                                    location.reload();
+                                },1000);
+                                $('.alert-success').slideDown();
+                            }else {
+                                $('.alert-danger').slideDown();
+                            }
+                        })
+                    })
+                }
+            },
+
+            Bind:function () {
+                Forms.Link.Bind();
+            }
+        }
+
+        $(document).ready(function () {
+            $.validate({
+                validateOnBlur : false,
+                errorMessagePosition : 'top',
+                scrollToTopOnError : false
+            });
+            Forms.Bind();
+
+        });
+
+
+    </script>
+{% endblock %}

@@ -2,24 +2,26 @@
 {% extends 'UserBundle:Default:base.html.twig' %}
 {% block content %}
 
-    <div id="page-wrapper">
+    <section id="mainForm" class="clearfix" xmlns="http://www.w3.org/1999/html">
+    <div class="container">
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">Ödeme İsteği</h1>
+                <h1 class="page-header">{{ Label("Ödeme İsteği") }}</h1>
             </div>
             <!-- /.col-lg-12 -->
         </div>
         {% if(setting.MinimumPayment > user.Balance) %}
-                Ödeme alabilceğiniz miktar {{ setting.MinimumPayment }}TL'dir. <br/>
-                Şuan bakiyeniz {{ user.Balance }}TL'dir
+            {{ Label("Minimum Payment") }}  {{ setting.MinimumPayment }} <br/>
+            {{ Label("User Current Balance") }}{{ user.Balance }}
+
 
         {% else %}
         <div class="alert alert-success" style="display: none">
-            <strong>Ödeme bildiriminizi aldık, ödeme en kısa zamanda hesabınıza geçicektir</strong>
+            <strong>  {{ Label("Ödeme bildiriminizi aldık, ödeme en kısa zamanda hesabınıza geçicektir") }}</strong>
         </div>
 
         <div class="alert alert-danger" style="display: none">
-            <strong>Hata oluştu tekrar deneyiniz</strong>
+            <strong>  {{ Label("Hata oluştu tekrar deneyiniz") }}</strong>
         </div>
         <div class="row">
 
@@ -27,23 +29,23 @@
             <div class="col-lg-12">
                 <div class="panel panel-green">
                     <div class="panel-heading">
-                      Ödeme Bilgileri
+                        {{ Label("Ödeme Bilgileri") }}
                     </div>
                     <div class="panel-body">
-                        Ad-Soyad:{{ user.Name }} {{ user.SurName }}</br>
-                        Banka: {{ user.PaymentInfo }}</br>
-                        Email: {{ user.Email }} Telefon Numarası:{{ user.PhoneNumber }}
+                        {{ Label("Ad-Soyad") }} :{{ user.Name }} {{ user.SurName }}</br>
+                        {{ Label("Banka") }} : {{ user.PaymentInfo }}</br>
+                        {{ Label("Email") }} : {{ user.Email }} Telefon Numarası:{{ user.PhoneNumber }}
 
                     </div>
                     <div class="panel-footer">
-                        Bakiye: {{ user.Balance }} TL
+                        {{ Label("Bakiye") }} : {{ user.Balance }} TL
                     </div>
                 </div>
             </div>
 
 
                <div class="col-sm-6 col-sm-offset-3">
-                   <input type="submit" class="btn btn-primary btn-lg" name="get-payment-submit" id="get-payment-submit" tabindex="4" class="form-control btn btn-register" value="Ödeme Al">
+                   <input type="submit" class="btn btn-primary btn-lg" name="get-payment-submit" id="get-payment-submit" tabindex="4" class="form-control btn btn-register" value="  {{ Label("Ödeme Al") }}">
                </div>
            </form>
             </div>
@@ -52,6 +54,8 @@
 
 
     </div>
+    </section>
+
 {% endblock %}
 
 

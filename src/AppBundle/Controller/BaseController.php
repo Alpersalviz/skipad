@@ -14,6 +14,9 @@ use Symfony\Component\HttpFoundation\Session\Session;
 
 class BaseController extends Controller
 {
+    /**
+     * @var Session
+     */
     private $_session;
 
     public function Initialize(Session $session)
@@ -29,6 +32,11 @@ class BaseController extends Controller
             $this->_session->start();
         }
         return $this->_session;
+    }
+
+    public function RemoveSession($code){
+
+        $this->_session->remove($code);
     }
 
 }

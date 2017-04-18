@@ -1,10 +1,11 @@
 {% extends 'UserBundle:Default:base.html.twig' %}
 
 {% block content %}
-<div id="page-wrapper">
+<section id="mainForm" class="clearfix" xmlns="http://www.w3.org/1999/html">
+    <div class="container">
     <div class="row">
         <div class="col-lg-12">
-            <h1 class="page-header">Ayarlar</h1>
+            <h1 class="page-header">{{ Label("Ayarlar") }}</h1>
 
         </div>
         <!-- /.col-lg-12 -->
@@ -12,62 +13,62 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="alert alert-success" style="display: none">
-                    <strong>Düzenleme Yapıldı</strong>
+                    <strong>{{ Label("Düzenleme Yapıldı") }}</strong>
                 </div>
 
-                <div class="alert register-alert alert-danger" style="display: none"><strong>Düzenleme Yapılamadı</strong></div>
+                <div class="alert register-alert alert-danger" style="display: none"><strong> {{ Label("Düzenleme Yapılamadı") }}</strong></div>
 
                         <div class="row">
                             <div class="col-lg-12">
                                 <form id="update-form"  method="post" role="form">
                                     <div class="form-group">
-                                        <input  data-validation="email"  data-validation-error-msg="Lütfen gerçerli email adresi giriniz" type="text" name="email" id="email" tabindex="1" class="form-control" placeholder="Email" value="{{ user.Email }}">
+                                        <input  data-validation="email"  data-validation-error-msg="{{ Label("Enter valid information") }}" type="text" name="email" id="email" tabindex="1" class="form-control" placeholder="{{ Label("Email") }}" value="{{ user.Email }}">
                                     </div>
 
                                     <div class="form-group">
-                                        <input  data-validation="required" type="text" name="name" data-validation-error-msg="Lütfen isim giriniz" id="name" tabindex="1" class="form-control" placeholder="İsim" value="{{ user.Name }}">
+                                        <input  data-validation="required" type="text" name="name" data-validation-error-msg="{{ Label("Enter valid information") }}" id="name" tabindex="1" class="form-control" placeholder="{{ Label("İsim") }}" value="{{ user.Name }}">
                                     </div>
                                     <div class="form-group">
-                                        <input  data-validation="required" type="text" name="surname" data-validation-error-msg="Lütfen soyisim giriniz" id="surname" tabindex="1" class="form-control" placeholder="Soyisim" value="{{ user.SurName }}">
+                                        <input  data-validation="required" type="text" name="surname" data-validation-error-msg="{{ Label("Enter valid information") }}" id="surname" tabindex="1" class="form-control" placeholder="{{ Label("Soyisim") }}" value="{{ user.SurName }}">
                                     </div>
                                     <div class="form-group">
-                                        <input  data-validation="required" type="password" name="password"  data-validation-error-msg="Lütfen gerçerli şifre giriniz" id="password" tabindex="3" class="form-control" placeholder="Şifre" value="{{ user.Password }}">
-                                    </div>
-
-                                    <div class="form-group">
-                                        <input  data-validation="required" data-validation-error-msg="Lütfen gerçerli adres giriniz" type="text" name="address1" id="address1" tabindex="4" class="form-control" placeholder="Adres" value="{{ user.Address1 }}">
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="text" name="address2" id="address2" tabindex="5" class="form-control" placeholder="Adres" value="{{ user.Address2 }}">
-                                    </div>
-                                    <div class="form-group">
-                                        <input  data-validation="required" data-validation-error-msg="Lütfen gerçerli sehir giriniz" type="text" name="city" id="city" tabindex="6" class="form-control" placeholder="Şehir" value="{{ user.City }}">
-                                    </div>
-                                    <div class="form-group">
-                                        <input  data-validation="required" type="text" name="country" data-validation-error-msg="Lütfen gerçerli ülke giriniz" id="country" tabindex="7" class="form-control" placeholder="Ülke" value="{{ user.Country }}">
-                                    </div>
-                                    <div class="form-group">
-                                        <input type="text" name="zip_code" id="zip_code" tabindex="8" class="form-control" placeholder="Posta Kodu" value="{{ user.ZipCode }}">
-                                    </div>
-                                    <div class="form-group">
-                                        <input  data-validation="number" data-validation-error-msg="Lütfen gerçerli telefon giriniz" type="text" name="phone_number" id="phone_number" tabindex="9" class="form-control" placeholder="Telefon Numarası" value="{{ user.PhoneNumber }}">
+                                        <input  data-validation="required" type="password" name="password"  data-validation-error-msg="{{ Label("Enter valid information") }}" id="password" tabindex="3" class="form-control" placeholder="{{ Label("Şifre") }}" value="{{ user.Password }}">
                                     </div>
 
                                     <div class="form-group">
-                                        Ödeme Tipi:
+                                        <input  data-validation="required" data-validation-error-msg="{{ Label("Enter valid information") }}" type="text" name="address1" id="address1" tabindex="4" class="form-control" placeholder="{{ Label("Adres") }}" value="{{ user.Address1 }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" name="address2" id="address2" tabindex="5" class="form-control" placeholder="{{ Label("Adres") }}" value="{{ user.Address2 }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <input  data-validation="required" data-validation-error-msg="{{ Label("Enter valid information") }}" type="text" name="city" id="city" tabindex="6" class="form-control" placeholder="{{ Label("Şehir") }}" value="{{ user.City }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <input  data-validation="required" type="text" name="country" data-validation-error-msg="{{ Label("Enter valid information") }}" id="country" tabindex="7" class="form-control" placeholder="{{ Label("Ülke") }}" value="{{ user.Country }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <input type="text" name="zip_code" id="zip_code" tabindex="8" class="form-control" placeholder="{{ Label("Posta Kodu") }}" value="{{ user.ZipCode }}">
+                                    </div>
+                                    <div class="form-group">
+                                        <input  data-validation="number" data-validation-error-msg="{{ Label("Enter valid information") }}" type="text" name="phone_number" id="phone_number" tabindex="9" class="form-control" placeholder="{{ Label("Telefon Numarası") }}" value="{{ user.PhoneNumber }}">
+                                    </div>
+
+                                    <div class="form-group">
+                                        {{ Label("Ödeme Tipi") }}:
                                         <select class="form-control" name="payment_type">
-                                            <option value="paypal">Paypal</option>
-                                            <option value="bank">Banka</option>
+                                            <option value="paypal">{{ Label("Paypal") }}</option>
+                                            <option value="bank">{{ Label("Banka") }}</option>
                                         </select>
                                     </div>
 
                                     <div class="form-group">
-                                        <input  data-validation="required" data-validation-error-msg="Lütfen gerçerli ödeme biligisi giriniz" type="payment_info" name="payment_info" id="payment_info" tabindex="12" class="form-control" placeholder="Ödeme Bilgisi" value="{{ user.PaymentInfo }}">
+                                        <input  data-validation="required" data-validation-error-msg="{{ Label("Enter valid information") }}" type="payment_info" name="payment_info" id="payment_info" tabindex="12" class="form-control" placeholder="{{ Label("Ödeme Bilgisi") }}" value="{{ user.PaymentInfo }}">
                                     </div>
                                     <div class="form-group">
                                         <div class="row">
                                             <div class="col-sm-6 col-sm-offset-3">
-                                                <input type="submit" name="update-submit" id="register-submit" tabindex="4" class="form-control btn btn-primary" value="Düzenle">
+                                                <input type="submit" name="update-submit" id="register-submit" tabindex="4" class="form-control btn btn-primary" value="{{ Label("Düzenle") }}">
                                             </div>
                                         </div>
                                     </div>
@@ -77,6 +78,7 @@
             </div>
         </div>
 </div>
+</section>
 {% endblock %}
 
 
