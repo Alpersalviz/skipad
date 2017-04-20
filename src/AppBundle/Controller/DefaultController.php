@@ -49,13 +49,13 @@ class DefaultController extends BaseController
      */
     public function indexAction(Request $request)
     {
-            return $this->redirect('/tr');
+            return $this->redirect('home/tr');
 
         return array();
     }
 
     /**
-     * @Route("/{code}",name="homepageLanguage")
+     * @Route("/home/{code}",name="homepageLanguage")
      * @Template("AppBundle:Default:index.html.twig")
      */
     public function indexLanguageAction(Request $request,$code)
