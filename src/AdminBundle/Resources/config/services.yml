@@ -39,3 +39,7 @@ services:
           arguments: ["@app.settings_repository"]
           parent: "admin.base_controller"
 
+      admin.ppc_country_controller:
+          class: AdminBundle\Controller\PpcCountryController
+          arguments: ["@app.ppccountry_repository"]
+          parent: "admin.base_controller"

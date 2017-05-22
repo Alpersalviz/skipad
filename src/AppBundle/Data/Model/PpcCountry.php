@@ -22,8 +22,8 @@ class PpcCountry
         $this->ID                       = $data["ID"];
         $this->Ppc                      = $data["ppc"];
         $this->PpcPublisher             = (double)$data["ppc_publisher"];
-        $this->CountryCode              = (double)$data["country_code"];
-        $this->Is3g                     = $data["is_3g"];
+        $this->CountryCode              = $data["country_code"];
+        $this->Is3g                     = (int)$data["is_3g"];
         $this->AdType                   = $data["ad_type"];
 
         return $this;
